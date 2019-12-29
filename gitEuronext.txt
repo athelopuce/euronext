@@ -1,0 +1,30 @@
+== Init == 
+git init
+echo "# euronext" >> README.md
+git add README.md
+git add Release.md
+git commit -m "first commit"
+git add gitEuronext.txt
+git reset HEAD
+git status
+git commit --amend
+git reset --soft HEAD^
+
+git add README.md
+git add Release.md
+git add gitEuronext.txt
+git status
+git commit -m "first commit"
+git remote add euronext https://github.com/dhazel38/euronext.git
+
+
+== commit ==
+
+
+== push ==
+git push -u euronext master
+
+
+== si first commit ==
+git update-ref -d HEAD
+git rm --cached -r .  // ne pas oublier le point
