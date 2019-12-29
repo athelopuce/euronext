@@ -3,7 +3,7 @@
 * sortir les mots de pass
 
 
-# Relesase Euronext project
+# Release Euronext project
 Odre décroissant
 
 ## 15/12/19 version 1.5
