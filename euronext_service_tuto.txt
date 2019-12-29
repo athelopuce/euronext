@@ -1,0 +1,36 @@
+== Demarrage ==
+
+source activate Trading
+sudo systemctl restart euronext.service
+
+sudo systemctl status euronext
+sudo systemctl start euronext.service
+
+== Journal ==
+
+journalctl -u euronext -f
+journalctl -u euronext
+# View the last 25 log entries for the microblog service:
+journalctl -u euronext -n 25
+# View the logs for the microblog service from the last five minutes:
+journalctl -u euronext --since=-5m
+# hour
+journalctl -u euronext --since=-5h
+
+== Installation sur Raspberry Pi ==
+
+* créer euronext.service dans /lib/systemd/system/
+* activer le service (unité) dans SystemD
+* créer un lien symbolique (propre au système)
+* reboot
+* status et start
+
+sudo vi /lib/systemd/system/euronext.service
+
+sudo chmod 644 /lib/systemd/system/euronext.service
+sudo systemctl daemon-reload
+sudo systemctl enable euronext.service
+
+sudo reboot
+sudo systemctl status euronext.service
+sudo systemctl start euronext.service

@@ -1,0 +1,13 @@
+/* header {
+   background: black;
+} */
+body {
+   background: black;
+   color: yellow;
+}
+
+h1 {
+	font-size: 2em;
+	color: green;
+	text-align: center;
+}

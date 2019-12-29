@@ -1,0 +1,28 @@
+<!-- Page Parent pour toutes les pages filles -->
+<html>
+    <head>
+        {% if title %}
+        <title>{{ title }} - myStock</title>
+        {% else %}
+        <title>titre non défini !!!</title>
+        {% endif %}
+    </head>
+    <body>
+        <div>
+            MyStock:
+            <a href="{{ url_for('show_all') }}">Home</a>
+            <a href="{{ url_for('listAct') }}">list actions</a>
+        </div>
+        <hr>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul>
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
+        {% block content %}{% endblock %}
+    </body>
+</html>
