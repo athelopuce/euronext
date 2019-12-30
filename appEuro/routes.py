@@ -4,21 +4,12 @@ Created on Tue Dec 10 18:30:10 2019
 
 @author: Utilisateur
 """
-# cd C:\Users\Utilisateur
-# cd "Documents\Python Scripts\EuronextDev"
-
-from euronext import app  # import variable "app" from package app
-from euronext import db  # import variable "lib" from package app
-from euronext.forms import MyForm  # class des formulaires
-from euronext.models import Action, Ordre  # class de la base des donnees
-
-from flask import Flask, request, flash, url_for, redirect, render_template
+from appEuro import db  # import variable "lib" from package app
+from appEuro import app  # import variable "app" from package app
+from appEuro import Action, Ordre, Seuil
+from flask import request, flash, url_for, redirect, render_template
 
 import logging
-
-#app = Flask(__name__)
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///actions.sqlite3'
-#app.config['SECRET_KEY'] = "random string"
 
 
 @app.route('/')

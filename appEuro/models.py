@@ -4,7 +4,8 @@ Created on Tue Dec 10 18:30:10 2019
 
 @author: Utilisateur
 """
-from euronext import db
+from appEuro import db
+#from . import db, login_manager
 # from flask_sqlalchemy import SQLAlchemy  # dans __init__
 
 
