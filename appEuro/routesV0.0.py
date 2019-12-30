@@ -9,7 +9,7 @@ flask app
 Web
 ----
 http://localhost:5000  # windows
-http://192.168.10.15:5000/  # raspberry
+
 
 == install ==
 pip install flask-sqlalchemy
