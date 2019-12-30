@@ -7,7 +7,6 @@ Created on Tue Dec 17 14:30:48 2019
 OBSOLETE
 """
 
-import config  # pour inclure lib
 
 import ListActions
 

@@ -3,49 +3,43 @@
 Created on Tue Nov 26 15:31:52 2019
 
 @author: Utilisateur
-
-Window:
--------
-set FLASK_APP=run.py
-flask run
-
-
-Rasp:
-------
-/home/pi/berryconda3/envs/Trading/bin/python /home/pi/Trad/webAppV2.py
-
-Autre solution:
-source activate Trading
-cd Trad
-export FLASK_APP=run.py
-flask run
-
-Web
-----
-http://localhost:5000  # windows
-http://192.168.10.15:5010/  # raspberry
-
-https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-xx-some-javascript-magic
 """
-
-from euronext import app, db
-
-# cd "Documents\Python Scripts\Euronext"
-# python run.py
-
-# .flaskenv --> set FLASK_APP=run.py
-
-# creates a shell context that adds the database instance and
-# models to the shell session:
-#from euronext.models import User, Post
+import os
+import click
+from flask_migrate import Migrate
+# from euronext import app, db
+from appEuro import create_app, db
+from appEuro.models import Action, Ordre, Seuil
 
 
-#@app.shell_context_processor
-#def make_shell_context():
-#    return {'db': db, 'User': User, 'Post': Post}
+#    cd Documents\Python Scripts
+#    ./var.bat
+#    cd EuronextClone
+#    flask run
+#    flask test
 
 
-#app.run(host='0.0.0.0', port=5010, debug=True)
-if __name__ == '__main__':
-    app.run()
+#    .flaskenv --> set FLASK_APP=run.py
 
+
+app = create_app(os.getenv('FLASK_CONFIG') or 'default')
+migrate = Migrate(app, db)
+
+
+# pour les commande shell: flask shell (voir fichier shell.md)
+@app.shell_context_processor
+def make_shell_context():
+    return dict(db=db, Action=Action, Ordre=Ordre, Seuil=Seuil)
+
+
+# lance les tests: cmd flask test (voir fichier shell.md)
+@app.cli.command()
+@click.argument('test_names', nargs=-1)
+def test(test_names):
+    """Run the unit tests."""
+    import unittest
+    if test_names:
+        tests = unittest.TestLoader().loadTestsFromNames(test_names)
+    else:
+        tests = unittest.TestLoader().discover('tests')
+    unittest.TextTestRunner(verbosity=2).run(tests)
