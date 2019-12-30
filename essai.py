@@ -1,2 +1,0 @@
-#essai inutile 
-import os
