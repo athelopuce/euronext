@@ -10,7 +10,7 @@ TEST Envoi message SMS
 # python -m pytest -v  # tous les tests
 # python -m pytest lib/tests/sms_test.py
 
-import config  # pour inclure lib
+#import config  # pour inclure lib
 import pytest
 
 from lib.sms import SMS, SMSfictif

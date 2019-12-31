@@ -26,5 +26,5 @@ def main():
         logging.debug('nom: {}, Flag: {}'.format(elm._name, elm.flgAV))
 
 
-if __name__ == '__main__':
-    main()
+#if __name__ == '__main__':
+#    main()
