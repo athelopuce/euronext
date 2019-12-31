@@ -6,7 +6,7 @@ Created on Tue Dec 10 18:30:10 2019
 """
 from appEuro import db  # import variable "lib" from package app
 from appEuro import app  # import variable "app" from package app
-from appEuro import Action, Ordre, Seuil
+from appEuro import Action, Ordre
 from flask import request, flash, url_for, redirect, render_template
 
 import logging

@@ -10,6 +10,7 @@ from flask_migrate import Migrate
 # from euronext import app, db
 from appEuro import create_app, db
 from appEuro.models import Action, Ordre, Seuil
+import pytest
 
 
 #    cd Documents\Python Scripts
@@ -43,3 +44,4 @@ def test(test_names):
     else:
         tests = unittest.TestLoader().discover('tests')
     unittest.TextTestRunner(verbosity=2).run(tests)
+    pytest.main(['-sv', 'lib/'])
