@@ -36,9 +36,9 @@ setup(
 #    packages=find_packages(where='euronext'),
 #    package_dir={'': 'src'},
     packages=find_packages(),
-
-    install_requires=['flask', 'flask-migrate', 'flask_sqlalchemy',
-                      'flask_login', 'pip install flask-bootstrap'],
+    install_requires=['flask', 'flask-bootstrap', 'flask-login', 'Flask-Mail',
+                      'Flask-Migrate', 'Flask-SQLAlchemy', 'Flask-WTF',
+                      'flask-pagedown', 'flask-moment'],
 #    install_requires=['click', 'tinydb', 'six'],
 #    extras_require={'mongo': 'pymongo'},
 
