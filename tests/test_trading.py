@@ -6,25 +6,26 @@ Created on Thu Dec 12 20:14:10 2019
 
 pytest --version
 python -m pytest
-python -m pytest tests/trading_test.py
-python -m pytest tests/
+python -m pytest lib/tests/trading_test.py
+python -m pytest lib/tests/
 
 """
 # cd "Documents\Python Scripts\Euronext"
+# tous les tests
+# python -m pytest -v
+# python -m pytest lib/tests/stock_test.py
 
-import config
 import pytest
 
-
-from lib.dataweb import DataWeb
-from lib.trading import MACD, RSI
-
+# from lib.dataweb import DataWeb
+# from lib.trading import MACD, RSI
+from lib import DataWeb, MACD, RSI
 
 print('== Dowload data ==')
 # déclaration
 dw = DataWeb()
-dw.symbol = 'ML.PA'
-dw.name = 'Michelin'
+dw.symbol = 'FP.PA'
+dw.name = 'Total'
 dw.start = '1/7/2019'
 print(dw)
 
@@ -48,7 +49,7 @@ mlsig = macd.calcul()
 print(list(mlsig.columns))  # liste des colonnes
 mlsig = macd.signal()
 print(list(mlsig.columns))  # liste des colonnes
-print(mlsig['signal'])
+
 
 # pas de corruption des data
 def test_MACD():
@@ -56,7 +57,12 @@ def test_MACD():
 
 
 # définir une classe test avec data d'entrée à créer
-def test_MACDcalcul():
+# http://zetcode.com/python/pytest/
+@pytest.mark.parametrize("data, expected", [((2, 3, 1, 4, 6), 1),
+                                            ((5, -2, 0, 9, 12), -2),
+                                            ((200, 100, 0, 300, 400),
+                                             0)])
+def test_MACDcalcul(data, expected):
     pass
 
 
@@ -84,7 +90,7 @@ print(mlsig.tail())
 print(list(mlsig.columns))  # liste des colonnes
 sig = rsi.signal()
 print(list(sig.columns))  # liste des colonnes
-print(rsi)
+#print(rsi)
 print(sig.tail())
 
 # pas de corruption des data
@@ -101,6 +107,6 @@ class TestIndicator:
     pass
 
 
-if __name__ == '__main__':
-    pytest.main()
-#    pytest.main(["-qq"], plugins=[TestIndicator()])  # class TestIndicator
+#if __name__ == '__main__':
+#    pytest.main()
+##    pytest.main(["-qq"], plugins=[TestIndicator()])  # class TestIndicator
