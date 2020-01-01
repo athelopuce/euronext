@@ -7,6 +7,7 @@ Created on Tue Dec 10 18:30:10 2019
 from appEuro import app  # import variable "app" from package app
 
 from flask import render_template, request
+from .forms import NameForm
 
 
 #@app.route('/')

@@ -4,9 +4,8 @@ Created on Tue Dec 10 18:30:10 2019
 
 @author: Utilisateur
 """
-from appEuro import db
+from . import db
 #from . import db, login_manager
-# from flask_sqlalchemy import SQLAlchemy  # dans __init__
 
 
 class Action(db.Model):
