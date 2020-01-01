@@ -4,10 +4,11 @@ Created on Tue Dec 10 18:30:10 2019
 
 @author: Utilisateur
 """
-from appEuro import app  # import variable "app" from package app
-
 from flask import render_template, request
-from .forms import NameForm
+from .. import db
+from ..models import Action, Ordre
+from . import main
+from .forms import MyForm
 
 
 #@app.route('/')
@@ -15,12 +16,12 @@ from .forms import NameForm
 #    return render_template('test.html')
 
 
-@app.route('/')
+@main.route('/')
 def index():
     user_agent = request.headers.get('User-Agent')
     return '<p>Your browser is {}</p>'.format(user_agent)
 
 
-@app.route('/user/<name>')
+@main.route('/user/<name>')
 def user(name):
     return '<h1>Hello, {}!</h1>'.format(name)
