@@ -4,38 +4,41 @@ Created on Tue Dec 10 18:30:10 2019
 
 @author: Utilisateur
 """
-from appEuro import db  # import variable "lib" from package app
-from appEuro import app  # import variable "app" from package app
-from appEuro import Action, Ordre, Seuil
 from flask import request, flash, url_for, redirect, render_template
+from .. import db
+from ..models import Action, Ordre
+from . import main
+from .forms import MyForm
 
 import logging
 
 
-@app.route('/')
+@main.route('/')
 def show_all():
     return render_template('show_all.html', listActions=Action.query.all())
 
 
-@app.route('/bienvenue')
+@main.route('/bienvenue')
 def bienvenue():
     return render_template('bienvenue.html')
 
 
-@app.route('/essai')
+# test router OK
+@main.route('/essai')
 def essai():
     user_agent = request.headers.get('user-agent')
     return '<p>Your brower is {}</p>'.format(user_agent)
 
 
-@app.route('/listAct')
+@main.route('/listAct')
 def listAct():
     return render_template('listAct.html',
                            title='listAct',
                            listActions=Action.query.all())
 
 
-@app.route('/newAct', methods=['GET', 'POST'])
+# faire newAct pour ajouter action
+@main.route('/newAct', methods=['GET', 'POST'])
 def newAct():
     if request.method == 'POST':
         if not request.form['name'] or not request.form['symbole']:
@@ -50,7 +53,7 @@ def newAct():
     return render_template('newAct.html')
 
 
-@app.route('/newOrdre', methods=['GET', 'POST'])
+@main.route('/newOrdre', methods=['GET', 'POST'])
 def newOrdre():
     if request.method == 'POST':
         if not request.form['name'] or not request.form['symbole']:
