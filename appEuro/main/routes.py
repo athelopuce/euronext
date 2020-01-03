@@ -4,18 +4,23 @@ Created on Tue Dec 10 18:30:10 2019
 
 @author: Utilisateur
 """
-from flask import request, flash, url_for, redirect, render_template
+from flask import request, flash, url_for, redirect, render_template, session
 from .. import db
 from ..models import Action, Ordre
 from . import main
-from .forms import MyForm
+from .forms import MyForm  # a faire sur newAct
 
 import logging
 
 
 @main.route('/')
-def show_all():
-    return render_template('base.html', listActions=Action.query.all())
+def index():
+    form = MyForm()
+#    return render_template('base.html', listActions=Action.query.all())
+    return render_template('index.html',
+                           form=form, name=session.get('name'),
+                           known=session.get('known', False),
+                           listActions=Action.query.all())
 
 
 @main.route('/bienvenue')
@@ -49,7 +54,7 @@ def newAct():
             db.session.add(action)
             db.session.commit()
             flash('Record was successfully added')
-            return redirect(url_for('.show_all'))  # or main.show_all
+            return redirect(url_for('.index'))  # or main.index
     return render_template('newAct.html')
 
 
@@ -68,5 +73,5 @@ def newOrdre():
             db.session.commit()
 
             flash('Record was successfully added')
-            return redirect(url_for('.show_all'))
+            return redirect(url_for('.index'))
     return render_template('newOrdre.html')
