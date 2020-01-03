@@ -1,5 +1,3 @@
-<!-- Page Parent pour toutes les pages filles -->
-<!-- architecture bootstrap/base  -->
 {% extends "bootstrap/base.html" %}
 
 {% block title %}Euronext{% endblock %}
@@ -10,7 +8,7 @@
 <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
 {% endblock %}
 
-<!-- bloc de navigation -->
+{# index de navigation #}
 {% block navbar %}
 <div class="navbar navbar-inverse" role="navigation">
     <div class="container">
@@ -25,9 +23,9 @@
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li><a href="/">Home</a></li>
- 				<li><a href="/newAct">Ajout actions</a></li>
-				<li><a href="/">Ajout ordres</a></li>
+                <li><a href="{{ url_for('main.index') }}">Home</a></li>
+ 				<li><a href="{{ url_for('main.newAct') }}">Ajout actions</a></li>
+				<li><a href="{{ url_for('main.newOrdre') }}">Ajout ordres</a></li>
             </ul>
         </div>
     </div>
@@ -49,8 +47,8 @@
 </div>
 {% endblock %}
 
-<!-- scripts -->
-<!-- {% block scripts %}
+<!-- scripts Flask-Moment depends on jQuery.js-->
+{% block scripts %}
 {{ super() }}
 {{ moment.include_moment() }}
-{% endblock %} -->
+{% endblock %}
