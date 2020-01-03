@@ -1,10 +1,11 @@
-<!DOCTYPE html>
-<html>
-	<head>
-		<title>NewAction</title>
-	</head>
+{% extends "base.html" %}
+
+{% block title %}Euro{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
    <body>
-      <h3>New actions - Flask</h3>
+      <h3>New actions - appFlask</h3>
       <hr/>
       
       {%- for category, message in get_flashed_messages(with_categories = true) %}
@@ -23,4 +24,5 @@
          <input type = "submit" value = "Submit" />
       </form>
    </body>
-</html>
+</div>
+{% endblock %}
