@@ -15,7 +15,7 @@ import logging
 
 @main.route('/')
 def show_all():
-    return render_template('show_all.html', listActions=Action.query.all())
+    return render_template('base.html', listActions=Action.query.all())
 
 
 @main.route('/bienvenue')
