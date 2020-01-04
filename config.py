@@ -32,7 +32,11 @@ class Config:
     FLASKY_MAIL_SUBJECT_PREFIX = '[Flasky]'
     FLASKY_MAIL_SENDER = 'Flasky Admin <flasky@example.com>'
     FLASKY_ADMIN = os.environ.get('FLASKY_ADMIN')
-    SQLALCHEMY_TRACK_MODIFICATIONS = False
+#    SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+    # Bcrypt algorithm hashing rounds
+    BCRYPT_LOG_ROUNDS = 15
+    WTF_CSRF_ENABLED = True
 
     @staticmethod
     def init_app(app):
@@ -49,6 +53,16 @@ class TestingConfig(Config):
     TESTING = True
     SQLALCHEMY_DATABASE_URI = os.environ.get('TEST_DATABASE_URL') or \
         'sqlite://'
+    # Bcrypt algorithm hashing rounds (reduced for testing purposes only!)
+    BCRYPT_LOG_ROUNDS = 4
+
+    # Enable the TESTING flag to disable the error catching during request
+    # handling so that you get better error reports when performing test
+    # requests against the application.
+    TESTING = True
+
+    # Disable CSRF tokens in the Forms (only valid for testing purposes!)
+    WTF_CSRF_ENABLED = False
 
 
 class ProductionConfig(Config):

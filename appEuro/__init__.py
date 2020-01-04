@@ -56,8 +56,8 @@ def create_app(config_name):
     from .main import main as main_blueprint
     app.register_blueprint(main_blueprint)
 
-    from appEuro.recipes import recipes_blueprint
-    app.register_blueprint(recipes_blueprint)
+#    from appEuro.recipes import recipes_blueprint
+#    app.register_blueprint(recipes_blueprint)
 
     from appEuro.users import users_blueprint
     app.register_blueprint(users_blueprint)
