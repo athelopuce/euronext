@@ -15,6 +15,8 @@ from flask_mail import Mail
 from flask_moment import Moment
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
+from flask_bcrypt import Bcrypt
+
 from flask_pagedown import PageDown
 from config import config
 
@@ -25,8 +27,9 @@ moment = Moment()
 db = SQLAlchemy()
 pagedown = PageDown()
 
-login_manager = LoginManager()
-login_manager.login_view = 'auth.login'
+bcrypt = Bcrypt()
+login = LoginManager()
+login.login_view = "users.login"
 
 
 def create_app(config_name):
@@ -38,10 +41,26 @@ def create_app(config_name):
     mail.init_app(app)
     moment.init_app(app)
     db.init_app(app)
-    login_manager.init_app(app)
+    bcrypt.init_app(app)
+    login.init_app(app)
+
     pagedown.init_app(app)
+
+    # Flask-Login configuration
+    from appEuro.models import User
+
+    @login.user_loader
+    def load_user(user_id):
+        return User.query.filter(User.id == int(user_id)).first()
+
     from .main import main as main_blueprint
     app.register_blueprint(main_blueprint)
+
+    from appEuro.recipes import recipes_blueprint
+    app.register_blueprint(recipes_blueprint)
+
+    from appEuro.users import users_blueprint
+    app.register_blueprint(users_blueprint)
 #
 #    from .auth import auth as auth_blueprint
 #    app.register_blueprint(auth_blueprint, url_prefix='/auth')
@@ -49,4 +68,3 @@ def create_app(config_name):
 #    from .api import api as api_blueprint
 #    app.register_blueprint(api_blueprint, url_prefix='/api/v1')
     return app
-    

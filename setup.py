@@ -38,7 +38,7 @@ setup(
     packages=find_packages(),
     install_requires=['flask', 'flask-bootstrap', 'flask-login', 'Flask-Mail',
                       'Flask-Migrate', 'Flask-SQLAlchemy', 'Flask-WTF',
-                      'flask-pagedown', 'flask-moment'],
+                      'flask-pagedown', 'flask-moment', 'flask-bcrypt'],
 #    install_requires=['click', 'tinydb', 'six'],
 #    extras_require={'mongo': 'pymongo'},
 
