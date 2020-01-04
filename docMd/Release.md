@@ -1,6 +1,16 @@
 # A FAIRE
-1. ajouter .gitignore voir exemple :\
-C:\Users\Utilisateur\Documents\Python Scripts\Tuto\flask_user_management_example-master"
+1. Ajouter la syntaxe code python :
+```Python
+flask db --help
+flask db history -v
+flask db migrate -m "message"
+flask db upgrade
+```
+1. Flask run : \
+bug demarre en Environment: production
+
+
+
 
 ---
 # Release Euronext project*

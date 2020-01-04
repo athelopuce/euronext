@@ -1,7 +1,15 @@
+# RESUME
+```Python
+flask db --help
+flask db history -v
+flask db migrate -m "message"
+flask db upgrade
+```    
+
 # INIT<a id="migrate.md"></a>
-```
-(venv) $ set FLASK_APP=run.py
-(venv) $ flask db init
+```Python
+(venv) set FLASK_APP=run.py
+(venv) flask db init
 ...
 Creating directory C:\Users\Utilisateur\Documents\Python Scripts\EuronextClone\m
 igrations ...  done
@@ -24,8 +32,8 @@ eeding.
 ## The First Database Migration
 ### Migrate
 with txt users table explicit what you do :
-```
-(venv) $ flask db migrate -m "users table"
+```Python
+(venv) flask db migrate -m "users table"
 ...
 C:\Users\Utilisateur\Documents\Python Scripts\EuronextDev\run.py:47: Warning: Si
 lently ignoring app.run() because the application is run from the flask command
@@ -48,8 +56,8 @@ versions\6ff953942fcd_users_table.py ...  done
 ---
 ### Upgrade
 To apply the changes to the database, the flask db upgrade command must be used.
-```
-(venv) $ flask db upgrade
+```Python
+(venv) flask db upgrade
 ...
 C:\Users\Utilisateur\Documents\Python Scripts\EuronextDev\run.py:47: Warning: Si
 lently ignoring app.run() because the application is run from the flask command
@@ -63,8 +71,8 @@ INFO  [alembic.runtime.migration] Running upgrade  -> 6ff953942fcd, users table
 
 ---
 ### Downgrade
-```
-(venv) $ flask db downgrade
+```Python
+(venv) flask db downgrade
 ...
 C:\Users\Utilisateur\Documents\Python Scripts\EuronextDev\run.py:47: Warning: Si
 lently ignoring app.run() because the application is run from the flask command

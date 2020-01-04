@@ -7,6 +7,10 @@ Created on Tue Dec 17 14:30:48 2019
 OBSOLETE
 """
 
+"""
+############
+# A REVOIR #
+############
 
 import ListActions
 
@@ -24,7 +28,4 @@ def main():
     logging.info('\n== liste des actions à surveiller ==')
     for elm in act:
         logging.debug('nom: {}, Flag: {}'.format(elm._name, elm.flgAV))
-
-
-#if __name__ == '__main__':
-#    main()
+"""

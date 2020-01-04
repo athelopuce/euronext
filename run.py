@@ -44,4 +44,5 @@ def test(test_names):
     else:
         tests = unittest.TestLoader().discover('tests')
     unittest.TextTestRunner(verbosity=2).run(tests)
-    pytest.main(['-sv', 'lib/'])
+    pytest.main(['-sv', 'tests/'])
+    pytest.main(['-sv', 'libEuro/'])

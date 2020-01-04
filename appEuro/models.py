@@ -40,7 +40,7 @@ class Ordre(db.Model):
     nombre = db.Column(db.Integer)
     prix = db.Column(db.String(10))
     date = db.Column(db.DateTime)
-    action_id = db.Column(db.Integer, db.ForeignKey('action.id'))
+    action_id = db.Column(db.Integer, db.ForeignKey('actions.id'))
 
     def __init__(self, name, symbole):
         self.name = name
@@ -51,13 +51,13 @@ class Seuil(db.Model):
     '''
     seuils Max et min vente
     '''
-    
+
     __tablename__ = 'seuils'
     id = db.Column(db.Integer, primary_key=True)
     seuilMax = db.Column(db.Integer)
     seuilMin = db.Column(db.Integer)
     date = db.Column(db.DateTime)
-    action_id = db.Column(db.Integer, db.ForeignKey('action.id'))
+    action_id = db.Column(db.Integer, db.ForeignKey('actions.id'))
 
 
 class User(db.Model):
