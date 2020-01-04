@@ -11,7 +11,11 @@ from datetime import datetime
 
 
 class Action(db.Model):
-    ''' liste des actions '''
+    '''
+    liste des actions
+    '''
+
+    __tablename__ = 'actions'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), index=True, unique=True)
     symbole = db.Column(db.String(10), index=True, unique=True)
@@ -27,7 +31,11 @@ class Action(db.Model):
 
 
 class Ordre(db.Model):
-    ''' transactions achats ventes '''
+    '''
+    transactions achats ventes
+    '''
+
+    __tablename__ = 'ordres'
     id = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.Integer)
     prix = db.Column(db.String(10))
@@ -40,7 +48,11 @@ class Ordre(db.Model):
 
 
 class Seuil(db.Model):
-    ''' seuils Max et min vente '''
+    '''
+    seuils Max et min vente
+    '''
+    
+    __tablename__ = 'seuils'
     id = db.Column(db.Integer, primary_key=True)
     seuilMax = db.Column(db.Integer)
     seuilMin = db.Column(db.Integer)
