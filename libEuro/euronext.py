@@ -11,8 +11,8 @@ Class Euronext
 #import time
 from datetime import timedelta, date
 import datetime as dt
-import lib.fonction as fct
-import lib.jourFerie as jf
+import libEuro.fonction as fct
+import libEuro.jourFerie as jf
 
 class Euronext:
     def __init__(self, opening, closure):

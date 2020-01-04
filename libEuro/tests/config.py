@@ -22,4 +22,4 @@ sys.path.insert(0, os.path.abspath('../..'))  # 2 repertoires parents
 # path du dossier
 #print(sys.path)
 
-import lib
+import libEuro

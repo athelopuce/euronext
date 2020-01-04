@@ -1,2 +1,2 @@
-from lib.dataweb import DataWeb
-from lib.trading import MACD, RSI
+from libEuro.dataweb import DataWeb
+from libEuro.trading import MACD, RSI

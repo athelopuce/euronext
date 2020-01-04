@@ -11,7 +11,7 @@ Created on Thu Nov 21 18:24:16 2019
 
 import config  # pour inclure lib
 import pytest
-from lib.stock import Stock, Portefeuille
+from libEuro.stock import Stock, Portefeuille
 from datetime import datetime, timedelta
 
 import logging

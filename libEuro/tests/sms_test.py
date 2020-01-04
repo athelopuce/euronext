@@ -13,7 +13,7 @@ TEST Envoi message SMS
 #import config  # pour inclure lib
 import pytest
 
-from lib.sms import SMS, SMSfictif
+from libEuro.sms import SMS, SMSfictif
 import datetime as dt
 
 

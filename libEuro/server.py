@@ -9,7 +9,8 @@ http:/192.168.10.15:8888/index.py
 """
 
 import http.server
- 
+
+
 PORT = 8888
 server_address = ("", PORT)
 
