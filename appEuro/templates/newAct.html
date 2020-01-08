@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Euro{% endblock %}
+{% block title %}NewAct1{% endblock %}
 
 {% block page_content %}
 <div class="page-header">
@@ -15,13 +15,22 @@
       {%- endfor %}
       
       <form action = "{{ request.path }}" method = "post">
-         <label for = "name">Name</label><br>
-         <input type = "text" name = "name" placeholder = "ex: Michelin" /><br>
-		 
-		 <label for = "symbole">Symbole</label><br>
-         <input type = "text" name = "symbole" placeholder = "ex: ML.PA" /><br>
-		 
-         <input type = "submit" value = "Submit" />
+			{{ form.hidden_tag() }}
+        <p>
+            {{ form.name.label }}<br>
+            {{ form.name(size=32) }}<br>
+            {% for error in form.name.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+		<p>
+            {{ form.symbol.label }}<br>
+            {{ form.symbol(size=32) }}<br>
+            {% for error in form.symbol.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+         <p>{{ form.submit() }}</p>
       </form>
    </body>
 </div>

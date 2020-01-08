@@ -42,25 +42,9 @@ def listAct():
                            listActions=Action.query.all())
 
 
-# Old Versionfaire newAct pour ajouter action
+# new Version faire newAct pour ajouter action
 @main.route('/newAct', methods=['GET', 'POST'])
 def newAct():
-    if request.method == 'POST':
-        if not request.form['name'] or not request.form['symbole']:
-            flash('Please enter all the fields', 'error')
-        else:
-            action = Action(request.form['name'], request.form['symbole'])
-
-            db.session.add(action)
-            db.session.commit()
-            flash('Record was successfully added')
-            return redirect(url_for('.index'))  # or main.index
-    return render_template('newAct.html')
-
-
-# new Version faire newAct pour ajouter action
-@main.route('/newAct1', methods=['GET', 'POST'])
-def newAct1():
     form = NewAct()
     if form.validate_on_submit():
         act = Act(name=form.name.data, symbol=form.symbol.data)
@@ -68,7 +52,7 @@ def newAct1():
         db.session.commit()
         flash('Congratulations, action was successfully added!')
         return redirect(url_for('.index'))  # or main.index
-    return render_template('newAct1.html', title='newAct1', form=form)
+    return render_template('newAct.html', title='newAct', form=form)
 
 
 @main.route('/newOrdre', methods=['GET', 'POST'])

@@ -16,9 +16,9 @@ def test_NewAct_page(test_client):
     WHEN the '/newAct' page is requested (GET)
     THEN check the response is valid
     """
-    response = test_client.get('/newAct1')
+    response = test_client.get('/newAct')
     assert response.status_code == 200
-    assert b"newAct1" in response.data
+    assert b"newAct" in response.data
     assert b"Symbol" in response.data
     assert b"Titre" in response.data
     assert b"New actions" in response.data
