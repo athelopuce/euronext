@@ -42,15 +42,21 @@ class Act(db.Model):
     __tablename__ = "T_Acts"
 
     idAct = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.Text)
-    symbol = db.Column(db.Text)
+    name = db.Column(db.String(20))
+    symbol = db.Column(db.String(10))
     unitaryPrice = db.Column(db.Float)  # prix actuel. A revoir
+
+    def __init__(self, name, symbol):
+        self.name = name
+        self.symbol = symbol
 
     def __str__(self):
         return "%d: %s de marque %s = %.2f euros" % (self.idAct,
                                                      self.name,
                                                      self.symbol,
                                                      self.unitaryPrice)
+
+    # prevoir get et @propriate
 
 
 class Ord(db.Model):

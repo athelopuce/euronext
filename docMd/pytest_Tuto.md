@@ -53,3 +53,8 @@ test_home_page ('/')
 pytest --setup-show tests/functional/test_users.py::test_bienvenue
 pytest --setup-show tests/functional/test_users.py::test_home_page
 ```
+test_home_page ('/newAct')
+```Python
+pytest tests/functional/test_users.py::test_NewAct_page --setup-show -v
+pytest tests/functional/test_users.py::test_NewAct_page -s
+```

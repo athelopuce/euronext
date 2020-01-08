@@ -7,6 +7,35 @@ behavior of the users blueprint.
 """
 
 
+###########
+# /NewAct #
+###########
+def test_NewAct_page(test_client):
+    """
+    GIVEN a Flask application
+    WHEN the '/newAct' page is requested (GET)
+    THEN check the response is valid
+    """
+    response = test_client.get('/newAct1')
+    assert response.status_code == 200
+    assert b"newAct1" in response.data
+    assert b"Symbol" in response.data
+    assert b"Titre" in response.data
+    assert b"New actions" in response.data
+
+
+##############
+# /bienvenue #
+##############
+def test_bienvenue(test_client):
+    # bienvenue
+    response = test_client.get('/bienvenue')
+    assert response.status_code == 300
+
+
+#####
+# / #
+#####
 def test_home_page(test_client):
     """
     GIVEN a Flask application
@@ -20,12 +49,6 @@ def test_home_page(test_client):
     assert b"Existing user?" in response.data
 
 
-def test_bienvenue(test_client):
-    # bienvenue
-    response = test_client.get('/bienvenue')
-    assert response.status_code == 300
-
-
 def test_home_page_post(test_client):
     """
     GIVEN a Flask application
@@ -37,6 +60,9 @@ def test_home_page_post(test_client):
     assert b"Welcome to the Flask User Management Example!" not in response.data
 
 
+##########
+# /login #
+##########
 def test_login_page(test_client):
     """
     GIVEN a Flask application

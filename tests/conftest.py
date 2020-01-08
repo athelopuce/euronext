@@ -21,6 +21,7 @@ def new_user():
     return user
 
 
+# pour class User avec Act
 @pytest.fixture(scope='module')
 def init2_database():
     # Create the database and the database table

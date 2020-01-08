@@ -14,23 +14,22 @@
     {% endif %}
 	
 	<!-- A mettre en forme avec bootstrap -->
-	      <table>
-         <thead>
-            <tr>
-               <th>Name</th>
-               <th>Symblole</th>
-            </tr>
-         </thead>
-
-         <tbody>
-            {% for action in listActions %}
-               <tr>
-                  <td>{{ action.name }}</td>
-                  <td>{{ action.symbole }}</td>
-               </tr>
-            {% endfor %}
-         </tbody>
-      </table>
+	<table class="table" id="owned_stock_table">
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Symbole</th>
+			</tr>
+		</thead>
+		<tbody>
+		{% for action in listActions %}
+			<tr>
+				<td>{{ action.name }}</td>
+				<td>{{ action.symbol }}</td>
+			</tr>
+		{% endfor %}
+		</tbody>
+	</table>
 </div>
 {{ wtf.quick_form(form) }}
 {% endblock %}

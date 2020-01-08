@@ -6,9 +6,9 @@ Created on Tue Dec 10 18:30:10 2019
 """
 from flask import request, flash, url_for, redirect, render_template, session
 from .. import db
-from ..models import Action, Ordre
+from ..models import Action, Ordre, Act
 from . import main
-from .forms import MyForm  # a faire sur newAct
+from .forms import MyForm, NewAct
 
 import logging
 
@@ -20,7 +20,7 @@ def index():
     return render_template('index.html',
                            form=form, name=session.get('name'),
                            known=session.get('known', False),
-                           listActions=Action.query.all())
+                           listActions=Act.query.all())
 
 
 @main.route('/bienvenue')
@@ -42,7 +42,7 @@ def listAct():
                            listActions=Action.query.all())
 
 
-# faire newAct pour ajouter action
+# Old Versionfaire newAct pour ajouter action
 @main.route('/newAct', methods=['GET', 'POST'])
 def newAct():
     if request.method == 'POST':
@@ -56,6 +56,19 @@ def newAct():
             flash('Record was successfully added')
             return redirect(url_for('.index'))  # or main.index
     return render_template('newAct.html')
+
+
+# new Version faire newAct pour ajouter action
+@main.route('/newAct1', methods=['GET', 'POST'])
+def newAct1():
+    form = NewAct()
+    if form.validate_on_submit():
+        act = Act(name=form.name.data, symbol=form.symbol.data)
+        db.session.add(act)
+        db.session.commit()
+        flash('Congratulations, action was successfully added!')
+        return redirect(url_for('.index'))  # or main.index
+    return render_template('newAct1.html', title='newAct1', form=form)
 
 
 @main.route('/newOrdre', methods=['GET', 'POST'])
