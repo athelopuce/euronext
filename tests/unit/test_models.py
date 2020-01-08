@@ -1,8 +1,86 @@
+
 """
 This file (test_models.py) contains the unit tests for the models.py file.
 """
+import pytest
+
+##########
+# Action #
+##########
 
 
+def test_new_action(new_action):
+    """
+    GIVEN a Action model
+    WHEN a new Action is created
+    THEN check the name, symbol
+    are defined correctly
+    """
+    assert new_action.name == 'Michelin'
+    assert new_action.symbol == 'ML.PA'
+
+
+#########
+# Ordre #
+#########
+
+def test_new_ordre(new_ordre):
+    """
+    GIVEN a Ordre model
+    WHEN a new Ordre is created
+    THEN check the name, symbol
+    are defined correctly
+    """
+    assert new_ordre.name == 'Michelin'
+    assert new_ordre.symbol == 'ML.PA'
+
+
+########
+# User #
+########
+
+# version d'essai. Plutot Utiliser le test test_new_user(new_user)
+def test_new_userV0(new_user):
+    """
+    GIVEN a User model
+    WHEN a new User is created
+    THEN check the login, password ...
+    are defined correctly
+    """
+    assert new_user.login == 'John'
+    assert new_user.password == 'Doe'
+    from appEuro.models import User
+    u = User(idUser=2, login='Susan', password='Dir', connectionNumber=3)
+    assert u.idUser == 2
+    assert u.login == 'Susan'
+    assert u.password == 'Dir'
+    assert u.connectionNumber == 3
+
+
+# doublon du fichier test-users.py pour essai
+def test_bienvenue2(test_client):
+    # bienvenue
+    response = test_client.get('/bienvenue')
+    assert response.status_code == 200  # mettre 200 (ou 300 pour erreur)
+
+
+
+# test table User
+def test_user_query_all(test_client, init2_database, listdata):
+    from appEuro.models import User
+    users = User.query.all()
+    print(users)  # use pytest -s
+    assert str(users) == "[<User 0, 'John'>, <User 2, 'Susan'>]"
+    listdata = [(0, 'John', 'Doe'), (2, 'Susan', 'Dir')]
+    x = 0
+    for u in users:
+        print(u.login, u.password)
+        assert u.login == listdata[x][1]
+        assert u.login == listdata[x][2]
+        x += 1
+
+
+## A revoir table originnale User et mot de passe
 def test_new_user(new_user):
     """
     GIVEN a User model

@@ -1,12 +1,43 @@
 import pytest
 from appEuro import create_app, db
-from appEuro.models import User
+from appEuro.models import User, Action, Ordre
+
+
+@pytest.fixture(scope='module')
+def new_action():
+    action = Action('Michelin', 'ML.PA')
+    return action
+
+
+@pytest.fixture(scope='module')
+def new_ordre():
+    ordre = Ordre('Michelin', 'ML.PA')
+    return ordre
 
 
 @pytest.fixture(scope='module')
 def new_user():
-    user = User('patkennedy79@gmail.com', 'FlaskIsAwesome')
+    user = User()
     return user
+
+
+@pytest.fixture(scope='module')
+def init2_database():
+    # Create the database and the database table
+    db.create_all()
+
+    # Insert user data
+    user1 = User()
+    user2 = User(idUser=2, login='Susan', password='Dir', connectionNumber=3)
+    db.session.add(user1)
+    db.session.add(user2)
+
+    # Commit the changes for the users
+    db.session.commit()
+
+    yield db  # this is where the testing happens!
+
+    db.drop_all()
 
 
 @pytest.fixture(scope='module')

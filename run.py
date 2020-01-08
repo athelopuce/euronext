@@ -9,7 +9,8 @@ import click
 from flask_migrate import Migrate
 # from euronext import app, db
 from appEuro import create_app, db
-from appEuro.models import Action, Ordre, Seuil
+#from appEuro.models import Action, Ordre, Seuil
+from appEuro.models import User, Act, Ord, Action, Ordre
 import pytest
 
 
@@ -30,7 +31,7 @@ migrate = Migrate(app, db)
 # pour les commande shell: flask shell (voir fichier shell.md)
 @app.shell_context_processor
 def make_shell_context():
-    return dict(db=db, Action=Action, Ordre=Ordre, Seuil=Seuil)
+    return dict(db=db, Act=Act, Ord=Ord, User=User)
 
 
 # lance les tests: cmd flask test (voir fichier shell.md)

@@ -20,6 +20,12 @@ def test_home_page(test_client):
     assert b"Existing user?" in response.data
 
 
+def test_bienvenue(test_client):
+    # bienvenue
+    response = test_client.get('/bienvenue')
+    assert response.status_code == 300
+
+
 def test_home_page_post(test_client):
     """
     GIVEN a Flask application

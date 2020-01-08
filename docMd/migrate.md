@@ -1,3 +1,6 @@
+# DOC MIGRATE
+---
+
 # RESUME
 ```Python
 flask db --help

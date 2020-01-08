@@ -5,26 +5,136 @@ Created on Tue Dec 10 18:30:10 2019
 @author: Utilisateur
 """
 from . import db, bcrypt
-#from . import db, login_manager
-#from appEuro import db, bcrypt
 from datetime import datetime
 
 
+class User(db.Model):
+    '''
+    User
+    '''
+    __tablename__ = "T_Users"
+
+    idUser = db.Column(db.Integer, primary_key=True)
+    login = db.Column(db.Text)
+    password = db.Column(db.Text)
+    connectionNumber = db.Column(db.Integer)
+
+    def __init__(self, idUser=0, login="John",
+                 password="Doe", connectionNumber=0):
+        self.idUser = idUser
+        self.login = login
+        self.password = password
+        self.connectionNumber = connectionNumber
+
+    def __str__(self):
+        return "%d: %s %s - %d" % (self.idUser, self.login, self.password,
+                                   self.connectionNumber)
+
+    def __repr__(self):
+        return '<User %r, %r>' % (self.idUser, self.login)
+
+
+class Act(db.Model):
+    '''
+    Article = Act
+    '''
+
+    __tablename__ = "T_Acts"
+
+    idAct = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.Text)
+    symbol = db.Column(db.Text)
+    unitaryPrice = db.Column(db.Float)  # prix actuel. A revoir
+
+    def __str__(self):
+        return "%d: %s de marque %s = %.2f euros" % (self.idAct,
+                                                     self.name,
+                                                     self.symbol,
+                                                     self.unitaryPrice)
+
+
+class Ord(db.Model):
+    '''
+    Ordre
+    '''
+
+    __tablename__ = "T_Ords"
+
+    idOrd = db.Column(db.Integer, primary_key=True)
+    sens = db.Column(db.Text)
+    ordDate = db.Column(db.Date)
+    PriceAchat = db.Column(db.Float)  # prix de la transaction
+    quantity = db.Column(db.Integer)  # nbre d'action
+
+    idAct = db.Column(db.Integer, db.ForeignKey("T_Acts.idAct"))
+
+    def __str__(self):
+        return "%d: %s de marque %s = %.2f euros" % (self.idOrd,
+                                                     self.sens,
+                                                     self.ordDate,
+                                                     self.unitaryPrice)
+
+
+class OrdLine(db.Model):
+    '''
+    relation entre
+    CommandLine = 1 article + 1 commande
+    OrdLine (operation) = 1 ord + 1 cpt
+    '''
+
+    __tablename__ = "T_OrdLines"
+
+    idOrdLine = db.Column(db.Integer, primary_key=True)
+    # relation: 1::1
+    idAct = db.Column(db.Integer, db.ForeignKey("T_Acts.idAct"))
+    act = db.relationship("Act")
+
+    idCpt = db.Column(db.Integer, db.ForeignKey("T_Cpts.idCpt"))
+    cpt = db.relationship("Cpt")
+
+    def __str__(self):
+        return "%s x %d" % (str(self.act), self.quantity)
+
+
+class Cpt(db.Model):
+    '''
+    Command = 1user + des commandes
+    Cpt= 1user + des cpts
+    '''
+
+    __tablename__ = "T_Cpts"
+
+    idCpt = db.Column(db.Integer, primary_key=True)
+    cptDate = db.Column(db.Date)
+
+    idUser = db.Column(db.Integer, db.ForeignKey("T_Users.idUser"))
+    user = db.relationship("User")
+
+    ordLines = db.relationship("OrdLine", backref="OrdLine.idCpt")
+
+    def __str__(self):
+        result = "%s - Command %d for %s\n" % (str(self.commandDate),
+                                               self.idCommand,
+                                               str(self.user))
+        for line in self.ordLines:
+            result += "\t%s\n" % (str(line))
+        return result
+
+
+# Ancienne version
 class Action(db.Model):
     '''
-    liste des actions
+    liste des actions nom, symbole, secteur ....
     '''
 
     __tablename__ = 'actions'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), index=True, unique=True)
-    symbole = db.Column(db.String(10), index=True, unique=True)
-    ordres = db.relationship('Ordre', backref='transactions', lazy='dynamic')
-    seuils = db.relationship('Seuil', backref='limites', lazy='dynamic')
+    symbol = db.Column(db.String(10), index=True, unique=True)
 
-    def __init__(self, name, symbole):
+    def __init__(self, name, symbol):
         self.name = name
-        self.symbole = symbole
+        self.symbol = symbol
 
     def __repr__(self):
         return '<Action %r>' % self.name
@@ -40,80 +150,9 @@ class Ordre(db.Model):
     nombre = db.Column(db.Integer)
     prix = db.Column(db.String(10))
     date = db.Column(db.DateTime)
-    action_id = db.Column(db.Integer, db.ForeignKey('actions.id'))
+
+    action_id = db.Column(db.Integer, db.ForeignKey('actions.id'))  # 1 ordre
 
     def __init__(self, name, symbole):
         self.name = name
         self.symbole = symbole
-
-
-class Seuil(db.Model):
-    '''
-    seuils Max et min vente
-    '''
-
-    __tablename__ = 'seuils'
-    id = db.Column(db.Integer, primary_key=True)
-    seuilMax = db.Column(db.Integer)
-    seuilMin = db.Column(db.Integer)
-    date = db.Column(db.DateTime)
-    action_id = db.Column(db.Integer, db.ForeignKey('actions.id'))
-
-
-class User(db.Model):
-    """
-    Class that represents a user of the application
-
-    The following attributes of a user are stored in this table:
-        email address
-        password (hashed using Bcrypt)
-        authenticated flag (indicates if a user is logged in or not)
-        date that the user registered on
-    """
-
-    __tablename__ = 'users'
-
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    email = db.Column(db.String, unique=True, nullable=False)
-    hashed_password = db.Column(db.Binary(60), nullable=False)
-    authenticated = db.Column(db.Boolean, default=False)
-    registered_on = db.Column(db.DateTime, nullable=True)
-    role = db.Column(db.String, default='user')
-
-    def __init__(self, email, plaintext_password, role='user'):
-        self.email = email
-        self.hashed_password = bcrypt.generate_password_hash(
-                plaintext_password)
-        self.authenticated = False
-        self.registered_on = datetime.now()
-        self.role = role
-
-    def set_password(self, plaintext_password):
-        self.hashed_password = bcrypt.generate_password_hash(
-                plaintext_password)
-
-    def is_correct_password(self, plaintext_password):
-        return bcrypt.check_password_hash(
-                self.hashed_password, plaintext_password)
-
-    @property
-    def is_authenticated(self):
-        """Return True if the user is authenticated."""
-        return self.authenticated
-
-    @property
-    def is_active(self):
-        """Always True, as all users are active."""
-        return True
-
-    @property
-    def is_anonymous(self):
-        """Always False, as anonymous users aren't supported."""
-        return False
-
-    def get_id(self):
-        """Return the id of a user to satisfy Flask-Login's requirements."""
-        return str(self.id)
-
-    def __repr__(self):
-        return '<User {}>'.format(self.email)

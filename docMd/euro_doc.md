@@ -9,7 +9,7 @@
 1. [Pytest](pytest_Tuto.md)
 1. Sqlite
  1. [Migrate](migrate.md)
-  1. [suite](migrate.md)
+ 1. [Tester db en ligne de commande](dbFlask.md)
 1. Mode Production
  1. [setuputils](setuputils.md)
  1. [Requirements](Requirements.md)
