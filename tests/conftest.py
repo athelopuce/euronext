@@ -1,17 +1,18 @@
 import pytest
 from appEuro import create_app, db
-from appEuro.models import User, Action, Ordre
+from appEuro.models import User, Act, Ordre
 
 
 @pytest.fixture(scope='module')
 def new_action():
-    action = Action('Michelin', 'ML.PA')
+    #action = Act(name='Michelin', symbol='ML.PA', unitaryPrice=10.5)
+    action = Act(name='Michelin', symbol='ML.PA')
     return action
 
 
 @pytest.fixture(scope='module')
 def new_ordre():
-    ordre = Ordre('Michelin', 'ML.PA')
+    ordre = Ordre(name='Michelin', symbol='ML.PA')
     return ordre
 
 

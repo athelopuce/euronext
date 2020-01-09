@@ -40,9 +40,10 @@ pytest --setup-show tests/unit/
 ### database
 ```Python
 pytest --setup-show tests/unit/test_models.py::test_bienvenue2 -v
-pytest --setup-show tests/unit/test_models.py::test_new_user -v
-pytest --setup-show tests/unit/test_models.py::test_new_userV0 -v
-pytest --setup-show tests/unit/test_models.py::test_user_query_all -v
+pytest tests/unit/test_models.py::test_new_user --setup-show  -v
+pytest tests/unit/test_models.py::test_new_userV0 --setup-show -v
+pytest tests/unit/test_models.py::test_user_query_all --setup-show -v
+pytest tests/unit/test_models.py::test_new_action --setup-show -v
 # ou print
 pytest tests/unit/test_models.py::test_user_query_all -s 
 ```

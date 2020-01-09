@@ -11,6 +11,7 @@
 ### SQLAlchemy
 * [Py: SQLAlchemy](https://roscas.github.io/py/py-SQLAlchemy.html)
 * [Mapper des relations avec SQLAlchemy](https://koor.fr/Python/CodeSamplesSqlAlchemy/RelationMapping.wp)
+* [Quickstart](https://flask-sqlalchemy.palletsprojects.com/en/2.x/quickstart/)
 
 
 ---
@@ -22,3 +23,8 @@
 ---
 ## Markdown
 * [Editeur en ligne de markdown](https://stackedit.io/app#)
+
+
+---
+## Tests
+* [Testing Flask Applications](https://flask.palletsprojects.com/en/1.1.x/testing/)

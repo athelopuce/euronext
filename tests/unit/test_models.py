@@ -2,7 +2,7 @@
 """
 This file (test_models.py) contains the unit tests for the models.py file.
 """
-import pytest
+
 
 ##########
 # Action #
@@ -18,6 +18,7 @@ def test_new_action(new_action):
     """
     assert new_action.name == 'Michelin'
     assert new_action.symbol == 'ML.PA'
+    assert new_action.unitaryPrice == 0
 
 
 #########
@@ -64,23 +65,22 @@ def test_bienvenue2(test_client):
     assert response.status_code == 200  # mettre 200 (ou 300 pour erreur)
 
 
-
 # test table User
-def test_user_query_all(test_client, init2_database, listdata):
+def test_user_query_all(test_client, init2_database):
     from appEuro.models import User
     users = User.query.all()
     print(users)  # use pytest -s
-    assert str(users) == "[<User 0, 'John'>, <User 2, 'Susan'>]"
+    assert str(users) == "[<User 'John'>, <User 'Susan'>]"
     listdata = [(0, 'John', 'Doe'), (2, 'Susan', 'Dir')]
     x = 0
     for u in users:
         print(u.login, u.password)
         assert u.login == listdata[x][1]
-        assert u.login == listdata[x][2]
+        assert u.password == listdata[x][2]
         x += 1
 
 
-## A revoir table originnale User et mot de passe
+# A revoir table originnale User et mot de passe
 def test_new_user(new_user):
     """
     GIVEN a User model

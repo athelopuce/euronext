@@ -19,19 +19,23 @@ class User(db.Model):
     password = db.Column(db.Text)
     connectionNumber = db.Column(db.Integer)
 
-    def __init__(self, idUser=0, login="John",
-                 password="Doe", connectionNumber=0):
-        self.idUser = idUser
-        self.login = login
-        self.password = password
-        self.connectionNumber = connectionNumber
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        if self.idUser is None:
+            self.idUser = 0
+        if self.login is None:
+            self.login = "John"
+        if self.password is None:
+            self.password = "Doe"
+        if self.connectionNumber is None:
+            self.connectionNumber = "0"
 
     def __str__(self):
         return "%d: %s %s - %d" % (self.idUser, self.login, self.password,
                                    self.connectionNumber)
 
     def __repr__(self):
-        return '<User %r, %r>' % (self.idUser, self.login)
+        return '<User %r>' % self.login
 
 
 class Act(db.Model):
@@ -42,21 +46,31 @@ class Act(db.Model):
     __tablename__ = "T_Acts"
 
     idAct = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(20))
-    symbol = db.Column(db.String(10))
+    name = db.Column(db.String(20), nullable=False)
+    symbol = db.Column(db.String(10), nullable=False)
     unitaryPrice = db.Column(db.Float)  # prix actuel. A revoir
 
-    def __init__(self, name, symbol):
-        self.name = name
-        self.symbol = symbol
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        if self.unitaryPrice is None:
+            self.unitaryPrice = 0
+
+    def __repr__(self):
+        return '<Act %r>' % self.name
 
     def __str__(self):
         return "%d: %s de marque %s = %.2f euros" % (self.idAct,
                                                      self.name,
                                                      self.symbol,
                                                      self.unitaryPrice)
-
-    # prevoir get et @propriate
+# Recursion ERROR
+#    @property
+#    def unitaryPrice(self):
+#        return self.unitaryPrice
+#
+#    @unitaryPrice.setter
+#    def unitaryPrice(self, price):
+#        self.unitaryPrice = price
 
 
 class Ord(db.Model):
@@ -68,11 +82,14 @@ class Ord(db.Model):
 
     idOrd = db.Column(db.Integer, primary_key=True)
     sens = db.Column(db.Text)
-    ordDate = db.Column(db.Date)
+    ordDate = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     PriceAchat = db.Column(db.Float)  # prix de la transaction
     quantity = db.Column(db.Integer)  # nbre d'action
 
     idAct = db.Column(db.Integer, db.ForeignKey("T_Acts.idAct"))
+
+    def __repr__(self):
+        return '<Ord %r>' % self.idOrd
 
     def __str__(self):
         return "%d: %s de marque %s = %.2f euros" % (self.idOrd,
@@ -98,6 +115,9 @@ class OrdLine(db.Model):
     idCpt = db.Column(db.Integer, db.ForeignKey("T_Cpts.idCpt"))
     cpt = db.relationship("Cpt")
 
+    def __repr__(self):
+        return '<OrdLine %r>' % self.idAct
+
     def __str__(self):
         return "%s x %d" % (str(self.act), self.quantity)
 
@@ -111,12 +131,17 @@ class Cpt(db.Model):
     __tablename__ = "T_Cpts"
 
     idCpt = db.Column(db.Integer, primary_key=True)
-    cptDate = db.Column(db.Date)
+    name = db.Column(db.String(20), nullable=False)
+    cptDate = db.Column(db.DateTime, nullable=False,
+                        default=datetime.utcnow)  # date d'ouverture du compte
 
     idUser = db.Column(db.Integer, db.ForeignKey("T_Users.idUser"))
-    user = db.relationship("User")
+    user = db.relationship("User", backref=db.backref("comptes", lazy=True))
 
     ordLines = db.relationship("OrdLine", backref="OrdLine.idCpt")
+
+    def __repr__(self):
+        return '<Cpt %r>' % self.name
 
     def __str__(self):
         result = "%s - Command %d for %s\n" % (str(self.commandDate),
@@ -138,9 +163,9 @@ class Action(db.Model):
     name = db.Column(db.String(50), index=True, unique=True)
     symbol = db.Column(db.String(10), index=True, unique=True)
 
-    def __init__(self, name, symbol):
-        self.name = name
-        self.symbol = symbol
+#    def __init__(self, name, symbol):
+#        self.name = name
+#        self.symbol = symbol
 
     def __repr__(self):
         return '<Action %r>' % self.name
@@ -159,6 +184,6 @@ class Ordre(db.Model):
 
     action_id = db.Column(db.Integer, db.ForeignKey('actions.id'))  # 1 ordre
 
-    def __init__(self, name, symbole):
-        self.name = name
-        self.symbole = symbole
+#    def __init__(self, name, symbole):
+#        self.name = name
+#        self.symbole = symbole
