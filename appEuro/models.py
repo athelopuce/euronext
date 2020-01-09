@@ -21,8 +21,6 @@ class User(db.Model):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        if self.idUser is None:
-            self.idUser = 0
         if self.login is None:
             self.login = "John"
         if self.password is None:

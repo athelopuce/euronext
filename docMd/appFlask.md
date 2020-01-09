@@ -19,6 +19,7 @@ Console:
     
 ou
 
+    flask db migrate
     flask db upgrade
     flask run
     flask test
@@ -28,6 +29,8 @@ ou init
     set FLASK_APP=run.py
     set FLASK_DEBUG=1
     flask db init
+    flask db migrate
+    flask db upgrade
 
 ## Web
 http://localhost:5000  --> windows \
