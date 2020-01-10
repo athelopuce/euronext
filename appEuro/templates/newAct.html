@@ -32,6 +32,24 @@
         </p>
          <p>{{ form.submit() }}</p>
       </form>
+	  
+	  <hr/>
+	  <table class="table" id="owned_stock_table">
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Symbole</th>
+			</tr>
+		</thead>
+		<tbody>
+		{% for action in listActions %}
+			<tr>
+				<td>{{ action.name }}</td>
+				<td>{{ action.symbol }}</td>
+			</tr>
+		{% endfor %}
+		</tbody>
+	</table>
    </body>
 </div>
 {% endblock %}

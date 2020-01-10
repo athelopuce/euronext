@@ -52,7 +52,9 @@ def newAct():
         db.session.commit()
         flash('Congratulations, action was successfully added!')
         return redirect(url_for('.index'))  # or main.index
-    return render_template('newAct.html', title='newAct', form=form)
+    return render_template('newAct.html',
+                           title='newAct', form=form,
+                           listActions=Act.query.all())
 
 
 @main.route('/newOrdre', methods=['GET', 'POST'])
