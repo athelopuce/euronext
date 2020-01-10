@@ -14,9 +14,7 @@
 [COMMIT](#gitEuronext_COMMIT)\
 [CLONE](#gitEuronext_CLONE)\
 [CONFIGURER](#gitEuronext_CONFIGURER)\
-[Git sur Key USB](#gitEuronext_GitsurKey)\
-[Sauvegarde locale](#gitEuronext_SauvegardesurserveurGit)\
-[Sauvegarde sur serveur Git](#gitEuronext_SauvegardesurserveurGit) \
+[GIT SUR LE SERVEUR KEY USB](#gitEuronext-GIT_SERVEUR_SUR_KEY_USB) \
 [PULL](#gitEuronext_PULL)\
 [PUSH](#gitEuronext_PUSH) \
 [Code sommaire](#gitEuronext_Codesommaire)
@@ -392,49 +390,8 @@ dans la branche "master" sur GitHub
 
 ---
 *[Retour sommaire](#gitEuronext_Sommaire)\
-## Git sur Key USB<a id="gitEuronext_GitsurKey"></a>
-
-### Clone euronext-dev sur key USB (obsolete)
-
-	# Depuis PC
-	cd C:"\Users\Utilisateur\Documents\Python Scripts\Euronext_dev"
-	git clone \.git F:/Git/Euronext_dev
-	cd F:/Git/Euronext_dev
-	git remote -v
-	...
-	origin  C:/Users/Utilisateur/Documents/Python Scripts/Euronext_dev/.git (fetch)
-    origin  C:/Users/Utilisateur/Documents/Python Scripts/Euronext_dev/.git (push)
-	
-### Restore euronext-dev depuis key USB (obsolete)
-
-    cd C:"\Users\Utilisateur\Documents\Python Scripts\Euronext_dev"
-	git clone "F:/Python Scripts/Euronext_dev/.git"
-	cd Euronext_dev
-    git remote -v
-	
-	git remote rename origin backup
-	git remote -v
-	
-	git remote add origin https://github.com/dhazel38/euronext.git
-	git remote -v
-	...
-	backup  C:/Users/Utilisateur/Documents/Python Scripts/Euronext/.git (fetch)
-    backup  C:/Users/Utilisateur/Documents/Python Scripts/Euronext/.git (push)
-    origin  https://github.com/dhazel38/euronext.git (fetch)
-    origin  https://github.com/dhazel38/euronext.git (push)
-    
-    git remote add key F:/Git/Euronext/.git
-    git remote -v
-    ...
-    backup  C:/Users/Utilisateur/Documents/Python Scripts/Euronext/.git (fetch)
-    backup  C:/Users/Utilisateur/Documents/Python Scripts/Euronext/.git (push)
-    key     F:/Git/Euronext/.git (fetch)
-    key     F:/Git/Euronext/.git (push)
-    origin  https://github.com/dhazel38/euronext.git (fetch)
-    origin  https://github.com/dhazel38/euronext.git (push)
-    
-### Git sur le serveur Key
-## Définition git
+## GIT SUR LE SERVEUR KEY USB<a id="gitEuronext-GIT_SERVEUR_SUR_KEY_USB"></a>
+### Remote git
 **Remote Repository** : Le Remote Repository est le dépôt distant \
 **Local Repository** : Le Local Repository est le dépôt local. C'est le dossier .git stocké dans votre espace de travail. 
 
@@ -495,25 +452,23 @@ dans la branche "master" sur GitHub
 	...
 	origin  F:/Git/euronext.git (fetch)
 	origin  F:/Git/euronext.git (push)
-
     
----
-*[Retour sommaire](#gitEuronext_Sommaire)\
-## Sauvegarde locale<a id="gitEuronext_Sauvegardelocale"></a>
-
-    git push backup
-
-
-## Sauvegarde sur serveur Git<a id="gitEuronext_SauvegardesurserveurGit"></a>
-
-    git push backup master
+    git branch -a
+    ...
+    remotes/origin/HEAD -> origin/master
+    remotes/origin/dbModif1
+    remotes/origin/master
     
+    git checkout dbModif1
+
+
 ---
 *[Retour sommaire](#gitEuronext_Sommaire)\
 # PULL<a id="gitEuronext_PULL"></a>
 **descente du serveur**
 
     git pull
+
 
 ---
 *[Retour sommaire](#gitEuronext_Sommaire)\
