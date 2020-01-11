@@ -14,6 +14,12 @@
 * [Quickstart](https://flask-sqlalchemy.palletsprojects.com/en/2.x/quickstart/)
 
 
+
+---
+## Javascript
+### jQuery
+* [Un site web dynamique avec jQuery !](https://openclassrooms.com/fr/courses/1567926-un-site-web-dynamique-avec-jquery)
+
 ---
 ## Git
 * [Book - Pro Git](https://git-scm.com/book/fr/v2)

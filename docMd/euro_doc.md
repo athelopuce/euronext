@@ -7,6 +7,8 @@
 1. [GitHub](gitEuronext.md)
  1. [.gitignore et fichier exclude](gitExclude.md)
 1. [Pytest](pytest_Tuto.md)
+1. Javascript
+ 1. [jQuery](jquery.md)
 1. Sqlite
  1. [Migrate](migrate.md)
  1. [Tester db en ligne de commande](dbFlask.md)

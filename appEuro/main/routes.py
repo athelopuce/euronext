@@ -9,6 +9,7 @@ from .. import db
 from ..models import Action, Ordre, Act
 from . import main
 from .forms import MyForm, NewAct
+from flask import jsonify  # pour route interactive
 
 import logging
 
@@ -79,3 +80,16 @@ def newOrdre():
 @main.route('/interactive/')
 def interactive():
     return render_template('interactive.html')
+
+
+# avec interactive route
+@main.route('/background_process')
+def background_process():
+    try:
+        lang = request.args.get('proglang', 0, type=str)
+        if lang.lower() == 'python':
+            return jsonify(result='You are wise')
+        else:
+            return jsonify(result='Try again.')
+    except Exception as e:
+        return str(e)
