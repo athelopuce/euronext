@@ -8,7 +8,7 @@ from flask import request, flash, url_for, redirect, render_template, session
 from .. import db
 from ..models import Action, Ordre, Act
 from . import main
-from .forms import MyForm, NewAct
+from .forms import MyForm, NewAct, ListAction
 from flask import jsonify  # pour route interactive
 
 import logging
@@ -109,6 +109,12 @@ def foo():
 
 
 # liste des actions
+@main.route('/form')
+def sdg():
+    form = ListAction()
+    return render_template('sdg.html', form=form)
+
+
 @main.route('/listAction')
 def listAction():
     res = Act.query.all()

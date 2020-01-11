@@ -12,8 +12,21 @@
 				var form = $('<form action="/delete/' + this.dataset.id + '" method="post"></form>');
 				form.submit();
 			});
-			
-			$.ajax();
+			var actions=[];
+
+			function loadActions(){
+				$.getJSON('/listAction', function(data, status, xhr){
+					for (var i = 0; i < data.length; i++ ) {
+						actions.push(data[i].name);
+					}
+				});
+			};
+
+			loadActions();
+
+			$('#country').autocomplete({
+				source: actions, 
+				});
 		});
 		</script>
 	</head>

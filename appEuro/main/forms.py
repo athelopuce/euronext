@@ -25,3 +25,9 @@ class NewAct(FlaskForm):
         action = Act.query.filter_by(name=name.data).first()
         if action is not None:
             raise ValidationError('Please use a different titre.')
+
+
+class ListAction(FlaskForm):
+    action = StringField('Action',
+                         validators=[DataRequired(), Length(max=40)],
+                         render_kw={"placeholder": "action"})
