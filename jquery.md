@@ -21,3 +21,11 @@ https://stackoverflow.com/questions/40998026/python-flask-sqlite3-web-app-delete
 <form action="/foo?id={{ row["pin"] }}" method="GET">
     <button id="w3-btn">delete</button>
 </form>
+
+
+## JQuery
+https://pythonprogramming.net/jquery-flask-tutorial/
+
+@app.route('/interactive/')
+def interactive():
+	return render_template('interactive.html')

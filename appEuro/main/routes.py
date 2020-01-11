@@ -74,3 +74,8 @@ def newOrdre():
             flash('Record was successfully added')
             return redirect(url_for('.index'))
     return render_template('newOrdre.html')
+
+
+@main.route('/interactive/')
+def interactive():
+    return render_template('interactive.html')
