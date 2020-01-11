@@ -18,7 +18,13 @@
 ---
 ## Javascript
 ### jQuery
-* [Un site web dynamique avec jQuery !](https://openclassrooms.com/fr/courses/1567926-un-site-web-dynamique-avec-jquery)
+* [Un site web dynamique avec jQuery! - openclassrooms](https://openclassrooms.com/fr/courses/1567926-un-site-web-dynamique-avec-jquery)
+
+### AJAX (Asynchronous JavaScript and XML)
+* [jQuery - AJAX Introduction - w3schools](https://www.w3schools.com/jquery/jquery_ajax_intro.asp)
+* [AJAX : les requêtes HTTP par l'objet XmlHttpRequest - openclassrooms](https://openclassrooms.com/fr/courses/1567926-un-site-web-dynamique-avec-jquery/1569531-ajax-les-requetes-http-par-lobjet-xmlhttprequest)
+* [Le format JSON, AJAX et jQuery - alsacreations](https://www.alsacreations.com/article/lire/1161-json-ajax-jquery-jsonp-getjson.html)
+*[Flask: Form, Ajax and SQLAlchemy](http://abdulbaqi.io/2017/11/26/flask-form-ajax-sqlalchemy/)
 
 ---
 ## Git

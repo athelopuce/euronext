@@ -10,10 +10,11 @@
 
 ### Avec JQuery
 
-- Deleting rows from database with python flask?\
+- Deleting rows from database with python flask?
+
 https://stackoverflow.com/questions/25947251/deleting-rows-from-database-with-python-flask
 
-```python
+```html
 $(document).ready(function() {
     $("a.delete").click(function() {
         var form = $('<form action="/delete/' + this.dataset.id + '" method="post"></form>');
@@ -22,10 +23,9 @@ $(document).ready(function() {
 });
 ```
 
-* Python Flask Sqlite3 Web App Delete from database table row
-
-```python
+- Python Flask Sqlite3 Web App Delete from database table row
 https://stackoverflow.com/questions/40998026/python-flask-sqlite3-web-app-delete-from-database-table-row
+```html
 <form action="/foo?id={{ row["pin"] }}" method="GET">
     <button id="w3-btn">delete</button>
 </form>

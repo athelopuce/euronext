@@ -4,37 +4,50 @@
 
 {% block page_content %}
 <div class="page-header">
-   <body>
-      <h3>New actions - appFlask</h3>
-      <hr/>
-      
-      {%- for category, message in get_flashed_messages(with_categories = true) %}
-         <div class = "alert alert-danger">
-            {{ message }}
-         </div>
-      {%- endfor %}
-      
-      <form action = "{{ request.path }}" method = "post">
-			{{ form.hidden_tag() }}
-        <p>
-            {{ form.name.label }}<br>
-            {{ form.name(size=32) }}<br>
-            {% for error in form.name.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-        </p>
-		<p>
-            {{ form.symbol.label }}<br>
-            {{ form.symbol(size=32) }}<br>
-            {% for error in form.symbol.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-        </p>
-         <p>{{ form.submit() }}</p>
-      </form>
-	  
-	  <hr/>
-	  <table class="table" id="owned_stock_table">
+	<head>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+		<script>
+		$(document).ready(function() {
+			$("a.delete").click(function() {
+				var form = $('<form action="/delete/' + this.dataset.id + '" method="post"></form>');
+				form.submit();
+			});
+			
+			$.ajax();
+		});
+		</script>
+	</head>
+	<body>
+	<h3>New actions - appFlask</h3>
+	<hr/>
+
+	{%- for category, message in get_flashed_messages(with_categories = true) %}
+	<div class = "alert alert-danger">
+	{{ message }}
+	</div>
+	{%- endfor %}
+
+	<form action = "{{ request.path }}" method = "post">
+		{{ form.hidden_tag() }}
+	<p>
+		{{ form.name.label }}<br>
+		{{ form.name(size=32) }}<br>
+		{% for error in form.name.errors %}
+		<span style="color: red;">[{{ error }}]</span>
+		{% endfor %}
+	</p>
+	<p>
+		{{ form.symbol.label }}<br>
+		{{ form.symbol(size=32) }}<br>
+		{% for error in form.symbol.errors %}
+		<span style="color: red;">[{{ error }}]</span>
+		{% endfor %}
+	</p>
+	 <p>{{ form.submit() }}</p>
+	</form>
+
+	<hr/>
+		<table class="table" id="owned_stock_table">
 		<thead>
 			<tr>
 				<th>Name</th>
@@ -46,10 +59,17 @@
 			<tr>
 				<td>{{ action.name }}</td>
 				<td>{{ action.symbol }}</td>
+				<td>{{ action['name'] }}</td>
+				<td>
+					<form action="/foo" method="POST">
+						<input type="hidden" value="{{ action['name'] }}"/>
+						<button id="w3-btn">delete</button>
+					</form>
+				</td>
 			</tr>
 		{% endfor %}
 		</tbody>
-	</table>
-   </body>
+		</table>
+	</body>
 </div>
 {% endblock %}

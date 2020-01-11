@@ -61,6 +61,10 @@ class Act(db.Model):
                                                      self.name,
                                                      self.symbol,
                                                      self.unitaryPrice)
+
+    def as_dict(self):
+        return {'name': self.name}
+
 # Recursion ERROR
 #    @property
 #    def unitaryPrice(self):
