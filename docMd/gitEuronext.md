@@ -466,9 +466,23 @@ dans la branche "master" sur GitHub
 *[Retour sommaire](#gitEuronext_Sommaire)\
 # PULL<a id="gitEuronext_PULL"></a>
 **descente du serveur**
-
-    git pull
-
+```shell
+git pull --all
+git branch -a
+...
+FirstProg
+* dev
+master
+remotes/CAP1/FirstProg
+remotes/CAP1/FormAct
+remotes/CAP1/db190110
+remotes/CAP1/dbModif1
+remotes/CAP1/master
+remotes/CAP1/pytest
+...
+git checkout db190110
+git status
+```
 
 ---
 *[Retour sommaire](#gitEuronext_Sommaire)\

@@ -72,10 +72,10 @@
 			<tr>
 				<td>{{ action.name }}</td>
 				<td>{{ action.symbol }}</td>
-				<td>{{ action['name'] }}</td>
+				<td>{{ action.name }}</td>
 				<td>
 					<form action="/foo" method="POST">
-						<input type="hidden" value="{{ action['name'] }}"/>
+						<input type="hidden" value="{{ action.name }}"/>
 						<button id="w3-btn">delete</button>
 					</form>
 				</td>

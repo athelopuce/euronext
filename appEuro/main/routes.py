@@ -10,6 +10,7 @@ from ..models import Action, Ordre, Act
 from . import main
 from .forms import MyForm, NewAct, ListAction
 from flask import jsonify  # pour route interactive
+import requests  # pour page newAct delete '/foo'
 
 import logging
 
@@ -98,9 +99,9 @@ def background_process():
 # route de la page newAct delete
 @main.route('/foo', methods=['GET', 'POST'])
 def foo():
-    form = NewAct()
+    form = NewAct()  # inutile
     if request.method == 'GET':
-        pin = request.args.get('id')
+        pin = requests.args.get('id')
     if request.method == 'POST':
         pin = form.name.data
     print(pin)
@@ -109,7 +110,7 @@ def foo():
 
 
 # liste des actions
-@main.route('/form')
+@main.route('/sdg')
 def sdg():
     form = ListAction()
     return render_template('sdg.html', form=form)
@@ -120,3 +121,11 @@ def listAction():
     res = Act.query.all()
     list_actions = [r.as_dict() for r in res]
     return jsonify(list_actions)
+
+
+@main.route('/process', methods=['POST'])
+def process():
+    action = request.form['action']
+    if action:
+        return jsonify({'action': action})
+    return jsonify({'error': 'missing data..'})
