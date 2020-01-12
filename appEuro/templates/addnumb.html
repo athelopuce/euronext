@@ -17,23 +17,24 @@
 		{{ message }}
 		</div>
 		{%- endfor %}
-
-		<form class="form-inline">
-			{{ form.csrf_token }}
-			<div class="form-group">
-				{{form.action(class="form-control")}}
-			</div>
-				<button type="submit" class="btn btn-info">Submit</button>
-		</form>
-		<div id="result"></div>
 		
 		<!-- addnumber with test1.js  -->
 		<h1>jQuery Example</h1>
-			<p><input type=text size=5 name=a> +
-			   <input type=text size=5 name=b> =
-			   <span id=result>?</span>
-			<p><a href=# id=calculate>calculate server side</a>
-	</body>
-	
+		
+		<input type="number" id="a">
+		<input type="number" id="b">
+		<button id="calc">Calc</button>
+		<div id="results">
+		   <div id="add"></div>
+		   <div id="subtract"></div>
+		   <div id="multiply"></div>
+		   <div id="divide"></div>
+		</div>
 
+		<pre id="info"></pre>
+		<div id="description"></div>
+
+		<script src="../static/js/test3.js?r={{reload}}"></script>
+	</body>
+</div>
 {% endblock %}

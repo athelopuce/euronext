@@ -11,6 +11,7 @@ from . import main
 from .forms import MyForm, NewAct, ListAction
 from flask import jsonify  # pour route interactive
 import requests  # pour page newAct delete '/foo'
+import time  # for test1 addnumber
 
 import logging
 
@@ -106,6 +107,7 @@ def foo():
         pin = form.name.data
     print(pin)
     flash(pin)
+    flash('pin {}'.format(pin))
     return redirect(url_for('.index'))
 
 
@@ -129,3 +131,22 @@ def process():
     if action:
         return jsonify({'action': action})
     return jsonify({'error': 'missing data..'})
+
+
+# exemple test1 addnumber
+@main.route('/addition/')
+def addition():
+    return render_template('addnumb.html', reload=time.time())
+
+
+@main.route("/api/add", methods=["GET"])
+def add():
+    a = request.args.get("a", 0, type=float)
+    b = request.args.get("b", 0, type=float)
+#    a = int(request.args.get('a', 0))
+#    b = int(request.args.get('b', 0))
+    return jsonify({
+            "a": a,
+            "b": b,
+            "add": a+b,
+            })

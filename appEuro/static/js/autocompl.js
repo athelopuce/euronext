@@ -1,6 +1,6 @@
-/* autocomplete et liste des valeurs entrée */
-A REVOIR
+/* autocomplete */
 // https://www.bogotobogo.com/python/Flask/Python_Flask_with_AJAX_JQuery.php
+
 $(document).ready(function() {
 	var listactions=[];
 
@@ -18,24 +18,4 @@ $(document).ready(function() {
 		source: listactions
 	});
 	
-	
-	$('form').on('submit', function(e){
-		$.ajax({
-			data: {
-				action:$('#action').val()
-			},
-			type: 'POST',
-			url : '/process'
-		})
-		.done(function(data1){
-			if (data.error){
-				$('#result').text(data.error).show();
-			}
-			else {
-				$('#result').html(data.country).show()
-			}
-		})
-
-		e.preventDefault();
-	});
 });
