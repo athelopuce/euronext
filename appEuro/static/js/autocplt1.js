@@ -1,7 +1,10 @@
-/* autocomplete */
+/*
+autocomplete un log
+autocompl.js
+*/
 // https://www.bogotobogo.com/python/Flask/Python_Flask_with_AJAX_JQuery.php
 
-$(document).ready(function() {
+$("document").ready(function(){
 	var listactions=[];
 
 	function loadActions(){
@@ -14,7 +17,7 @@ $(document).ready(function() {
 
 	loadActions();
 
-	$('#action').autocomplete({
+	$('#action.form-control').autocomplete({
 		source: listactions
 	});
 	
