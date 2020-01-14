@@ -1,7 +1,7 @@
 /* Test fonction a+ b*/
 // https://flask.palletsprojects.com/en/1.1.x/patterns/jquery/
 /*
-sdg.html --> addnumber
+addnumber.html
 */
 $(function() {
     $('a#calculate').bind('click', function() {

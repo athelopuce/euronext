@@ -46,7 +46,7 @@ def listAct():
 
 
 # new Version faire newAct pour ajouter action
-@main.route('/newAct', methods=['GET', 'POST'])
+@main.route('/newAct', methods=['GET', 'POST', 'DELETE'])
 def newAct():
     form = NewAct()
     if form.validate_on_submit():
@@ -55,6 +55,12 @@ def newAct():
         db.session.commit()
         flash('Congratulations, action was successfully added!')
         return redirect(url_for('.index'))  # or main.index
+    elif request.method == 'DELETE':
+        # Retrieve data from the request and remove it from the database
+        myId = request.form.get('column1')
+        print(myId)
+#        print(nameid)
+        print('ok')
     return render_template('newAct.html',
                            title='newAct', form=form,
                            listActions=Act.query.all())
@@ -97,21 +103,8 @@ def background_process():
         return str(e)
 
 
-# route de la page newAct delete
-@main.route('/foo', methods=['GET', 'POST'])
-def foo():
-    form = NewAct()  # inutile
-    if request.method == 'GET':
-        pin = requests.args.get('id')
-    if request.method == 'POST':
-        pin = form.name.data
-    print(pin)
-    flash(pin)
-    flash('pin {}'.format(pin))
-    return redirect(url_for('.index'))
-
-
-# liste des actions
+# liste des actions aucompletes, listAction() et calcule a + b
+# fct avec route add()
 @main.route('/sdg')
 def sdg():
     form = ListAction()
@@ -123,14 +116,6 @@ def listAction():
     res = Act.query.all()
     list_actions = [r.as_dict() for r in res]
     return jsonify(list_actions)
-
-
-@main.route('/process', methods=['POST'])
-def process():
-    action = request.form['action']
-    if action:
-        return jsonify({'action': action})
-    return jsonify({'error': 'missing data..'})
 
 
 # exemple test1 addnumber
@@ -150,3 +135,60 @@ def add():
             "b": b,
             "add": a+b,
             })
+
+
+# route de la page newAct delete
+@main.route('/foo', methods=['GET', 'POST'])
+def foo():
+    form = NewAct()  # inutile
+    if request.method == 'GET':
+        pin = requests.args.get('data-id')
+    if request.method == 'POST':
+        pin = form.name.data
+    print(pin)
+    flash(pin)
+    flash('pin {}'.format(pin))
+#    return redirect(url_for('.index'))
+#    return render_template('newAct.html')
+    if pin:
+        return jsonify({'pin': pin})
+    return jsonify({'error': 'missing data..'})
+
+
+# route de la page newAct delete
+@main.route('/#delete', methods=['GET', 'POST'])
+def delete():
+    pin = requests.args.get('data-id')
+    if pin:
+        return jsonify({'pin': pin})
+    return jsonify({'error': 'missing data..'})
+
+
+# delete actions
+@main.route('/process', methods=['POST'])
+def process():
+    action = request.form['action']
+    if action:
+        return jsonify({'action': action})
+    return jsonify({'error': 'missing data..'})
+
+
+@main.route("/_delete_student")
+def delete_student():
+#    student_id = request.args.get("data-id")
+    student_id = request.form.get("data-id")
+#    cur = mysql.connection.cursor()
+#    cur.execute("DELETE FROM students WHERE student_id = %s", (student_id,)
+#    conn.commit()
+    print(student_id)
+    if student_id:
+        return jsonify({'student_id': student_id})
+    return jsonify({'error': 'missing data..'})
+
+
+@main.route('/something/', methods=['post'])
+def something():
+    form = NewAct()
+    if form.validate_on_submit():
+        return jsonify(data={'message': 'hello {}'.format(form.foo.data)})
+    return jsonify(data=form.errors)

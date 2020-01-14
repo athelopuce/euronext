@@ -1,8 +1,4 @@
-/* Test fonction a+ b*/
-// https://code-maven.com/slides/python-programming/flask-and-ajax-plain-javascript
-/*
-sdg.html
-*/
+//deleteRow.js
 (function() {
 	var ajax_get = function(url, callback) {
         xhr = new XMLHttpRequest();
@@ -10,7 +6,9 @@ sdg.html
             if (xhr.readyState == 4 && xhr.status == 200) {
                 console.log('responseText:' + xhr.responseText);
                 try {
-                    var data = JSON.parse(xhr.responseText);
+					// reponse du serveur
+                    //var data = JSON.parse(xhr.responseText);
+					//document.getElementById("myTable").deleteRow(id);
                 } catch(err) {
                     console.log(err.message + " in " + xhr.responseText);
                     return;
@@ -23,12 +21,14 @@ sdg.html
         xhr.send();
 	};
 	
-    var calc = document.getElementById('calc');
-    calc.addEventListener('click', function() {
-        var url = '/api/add?a=' + document.getElementById('a').value + '&b=' + document.getElementById('b').value;
+	var id = document.getElementById(id).value;
+	var delete = document.getElementById('#delete');
+    delete.addEventListener('click', function() {
+        var url = '/foo?id=' + id;
         //console.log(url);
         ajax_get(url, function(data) {
-            document.getElementById('operation').innerHTML = data['add'];
+            //document.getElementById('add').innerHTML = data['a'] + ' + ' + data['b'] + ' = ' + data['add'];
         });
 	});
- })()
+	
+})()
