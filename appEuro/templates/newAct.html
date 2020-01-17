@@ -34,29 +34,55 @@
 		</form>
 
 		<hr/>
-		
-		<table class="table" id="owned_stock_table">
-		<thead>
-			<tr>
-				<th>Name</th>
-				<th>Symbole</th>
-			</tr>
-		</thead>
-		<tbody>
-		{% for action in listActions %}
-			<tr>
-				<td>{{ action.name }}</td>
-				<td>{{ action.symbol }}</td>
-				<td>{{ action.name }}</td>
-				<td>
-					<a href="{{url_for('main.delete_student')}}" data-id="{{ action.name }}" >Delete</a>
-					<button type="button" class="btn btn-primary" onclick="Delete(this)">Delete</button>
-					<button type="submit" class="btn removeButton" data-id="345">Remove</button>
-				</td>
-			</tr>
-		{% endfor %}
-		</tbody>
-		</table>
+		<div class="wrapper-editor">
+			<table class="table" id="owned_stock_table">
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Symbole</th>
+				</tr>
+			</thead>
+			<tbody>
+			{% for action in listActions %}
+				<tr>
+					<td>{{ action.name }}</td>
+					<td>{{ action.symbol }}</td>
+					<td>{{ action.name }}</td>
+					<td>
+						<a href="{{url_for('main.delete_student')}}" data-id="{{ action.name }}" >Delete</a>
+						<button type="button" class="btn btn-primary" onclick="Delete(this)">Delete</button>
+						<button type="submit" class="btn removeButton" data-id="345">Remove</button>
+						<button class="btn trash"><i class="fa fa-trash"></i></button>
+						<button class="btn edit"><i class="fa fa-edit">edit</i></button>
+					</td>
+				</tr>
+			{% endfor %}
+			</tbody>
+			</table>
+			<a href="{{ url_for('main.newEdit') }}"> New Action </a>
+		</div>
+		<script>
+			$(document).ready(function() {
+				$('#action.name').editable({
+					placement: 'bottom',
+					params: function(params) {
+						// make x-editable act like a normal form field
+						var newParams = {};
+						newParams[params.name + '-' + params.pk] = params.value;
+						return newParams;
+					}
+				});
+				$('#action.symbol').editable({
+					placement: 'bottom',
+					params: function(params) {
+						// make x-editable's POST act like a normal form field
+						var newParams = {};
+						newParams[params.name + '-' + params.pk] = params.value;
+						return newParams;
+					}
+				});
+			});
+		</script>
 	</body>
 </div>
 {% endblock %}

@@ -6,7 +6,7 @@ Created on Sun Dec  8 19:34:21 2019
 """
 
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField
+from wtforms import StringField, SubmitField, IntegerField, FieldList, FormField
 from wtforms.validators import DataRequired, ValidationError, Length
 from appEuro.models import Act
 
@@ -31,3 +31,16 @@ class ListAction(FlaskForm):
     action = StringField('Action',
                          validators=[DataRequired(), Length(max=40)],
                          render_kw={"placeholder": "action"})
+
+
+# editable form
+class MemberForm(FlaskForm):
+    name = StringField('name')
+    member_id = StringField('member_id')
+    inbox_share = IntegerField('inbox_share')
+    # etc.
+
+
+class TeamForm(FlaskForm):
+    title = StringField('title')
+    teammembers = FieldList(FormField(MemberForm))

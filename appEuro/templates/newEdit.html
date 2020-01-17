@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}NewAct1{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+	<body>
+		<h3>New actions - appFlask</h3>
+		<hr/>
+
+		{%- for category, message in get_flashed_messages(with_categories = true) %}
+		<div class = "alert alert-danger">
+			{{ message }}
+		</div>
+		{%- endfor %}
+
+		<form action = "{{ request.path }}" method = "post">
+				{{ form.hidden_tag() }}
+			<p>
+				{{ form.name.label }}<br>
+				{{ form.name(size=32) }}<br>
+				{% for error in form.name.errors %}
+				<span style="color: red;">[{{ error }}]</span>
+				{% endfor %}
+			</p>
+			<p>
+				{{ form.symbol.label }}<br>
+				{{ form.symbol(size=32) }}<br>
+				{% for error in form.symbol.errors %}
+				<span style="color: red;">[{{ error }}]</span>
+				{% endfor %}
+			</p>
+			<p>{{ form.submit() }}</p>
+		</form>
+
+		<hr/>
+	</body>
+</div>
+{% endblock %}

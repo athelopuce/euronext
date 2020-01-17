@@ -8,7 +8,7 @@ from flask import request, flash, url_for, redirect, render_template, session
 from .. import db
 from ..models import Action, Ordre, Act
 from . import main
-from .forms import MyForm, NewAct, ListAction
+from .forms import MyForm, NewAct, ListAction, MemberForm, TeamForm
 from flask import jsonify  # pour route interactive
 import requests  # pour page newAct delete '/foo'
 import time  # for test1 addnumber
@@ -63,6 +63,26 @@ def newAct():
         print('ok')
     return render_template('newAct.html',
                            title='newAct', form=form,
+                           listActions=Act.query.all())
+
+
+@main.route('/newEdit', methods=['GET', 'POST'])
+def newEdit():
+    form = NewAct()
+    if form.validate_on_submit():
+        act = Act(name=form.name.data, symbol=form.symbol.data)
+        db.session.add(act)
+        db.session.commit()
+        flash('Congratulations, action was successfully added!')
+        return redirect(url_for('.index'))  # or main.index
+    elif request.method == 'POST':
+        # Retrieve data from the request and remove it from the database
+        myId = request.form.get('column1')
+        print(myId)
+#        print(nameid)
+        print('ok')
+    return render_template('newEdit.html',
+                           title='newEdit', form=form,
                            listActions=Act.query.all())
 
 
@@ -192,3 +212,21 @@ def something():
     if form.validate_on_submit():
         return jsonify(data={'message': 'hello {}'.format(form.foo.data)})
     return jsonify(data=form.errors)
+
+
+# editable form
+@main.route('/support/team-members-update', methods=['GET','POST'])
+def update_team_members():
+    teamform = TeamForm()
+    teamform.title.data = "My Team"  # change the field's data
+#    for member in db.get('teammembers')  # some database function to get a list of team members
+#        member_form = MemberForm()
+#        member_form.name = member.name # These fields don't use 'data'
+#        member_form.member_id = member.id
+#        member_form.inbox_share = member.share
+#
+#        teamform.teammembers.append_entry(member_form)
+    for x in Model1.query.all():
+        print(x.test1, x.test2)
+
+    return render_template('edit-team.html', teamform=teamform)

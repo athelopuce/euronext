@@ -5,6 +5,10 @@
 * [Testing a Flask Application using pytest](https://www.patricksoftwareblog.com/category/flask-tutorial/)
  * [flask_user_management_example ](https://gitlab.com/patkennedy79/flask_user_management_example)
 
+---
+## Angular
+* [Using Python, Flask, and Angular to Build Modern Web Apps - Part 1](https://auth0.com/blog/using-python-flask-and-angular-to-build-modern-apps-part-1/)
+
 
 ---
 ## db

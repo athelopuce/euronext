@@ -1,5 +1,6 @@
 //deleteRow.js
-// https://stackoverflow.com/questions/26266734/removing-a-table-row-from-a-db-on-a-button-click
+// https://datatables.net/examples/ajax/objects.html
+/*
 $('#owned_stock_table').on('click', '.trash', function(events){
 	var col1 = $(this).closest('tr').find('td').eq(0).html(); // or you could loop through the cells
 	var txt = "Voulez vous effacer l'action " + col1 + '?'
@@ -17,4 +18,19 @@ $('#owned_stock_table').on('click', '.trash', function(events){
 		});
 	}
  });
- 
+ $(document).ready(function() {
+    $('.table tr').on("dblclick",  function(e){
+        var case_id = $(this).find("td:first").text();
+        $.ajax({
+            url: "{{ url_for('current_case') }}",
+            data: {'case_id' : case_id},
+            type: 'POST',
+            success: function(response) {
+                $("#result").html(response);
+            },
+            error: function(error) {
+                console.log(error);
+            }
+        });
+    });
+});
