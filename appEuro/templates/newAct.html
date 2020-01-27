@@ -1,88 +1,63 @@
-{% extends "base.html" %}
+{% extends "starter.html" %}
 
 {% block title %}NewAct1{% endblock %}
 
 {% block page_content %}
 <div class="page-header">
 	<body>
-		<h3>New actions - appFlask</h3>
-		<hr/>
-
-		{%- for category, message in get_flashed_messages(with_categories = true) %}
-		<div class = "alert alert-danger">
-			{{ message }}
-		</div>
-		{%- endfor %}
-
-		<form action = "{{ request.path }}" method = "post">
-				{{ form.hidden_tag() }}
-			<p>
-				{{ form.name.label }}<br>
-				{{ form.name(size=32) }}<br>
-				{% for error in form.name.errors %}
-				<span style="color: red;">[{{ error }}]</span>
-				{% endfor %}
-			</p>
-			<p>
-				{{ form.symbol.label }}<br>
-				{{ form.symbol(size=32) }}<br>
-				{% for error in form.symbol.errors %}
-				<span style="color: red;">[{{ error }}]</span>
-				{% endfor %}
-			</p>
-			<p>{{ form.submit() }}</p>
-		</form>
-
-		<hr/>
 		<div class="wrapper-editor">
-			<table class="table" id="owned_stock_table">
-			<thead>
-				<tr>
-					<th>Name</th>
-					<th>Symbole</th>
-				</tr>
-			</thead>
-			<tbody>
-			{% for action in listActions %}
-				<tr>
-					<td>{{ action.name }}</td>
-					<td>{{ action.symbol }}</td>
-					<td>{{ action.name }}</td>
-					<td>
-						<a href="{{url_for('main.delete_student')}}" data-id="{{ action.name }}" >Delete</a>
-						<button type="button" class="btn btn-primary" onclick="Delete(this)">Delete</button>
-						<button type="submit" class="btn removeButton" data-id="345">Remove</button>
-						<button class="btn trash"><i class="fa fa-trash"></i></button>
-						<button class="btn edit"><i class="fa fa-edit">edit</i></button>
-					</td>
-				</tr>
-			{% endfor %}
-			</tbody>
+			<div class="table-title">
+                <div class="row">
+                    <div class="col-sm-8"><h2>Actions <b>Details</b></h2></div>
+                    <div class="col-sm-4">
+                        <button type="button" class="btn btn-info add-new"><i class="fa fa-plus"></i> Add New</button>
+                    </div>
+                </div>
+            </div>
+			<table class="table table-bordered table-hover" id="example" >
+				<caption>List of actions</caption>
+				<thead class="thead-dark">
+					<tr>
+						<!-- <th class="d-none">Id</th> -->
+						<th class="d-none">Id</th>
+						<th>Name</th>
+						<th class="d-none d-sm-block">Symbole</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+				<tbody>
+				{% for action in listActions %}
+					<tr>
+						<!-- <td class="d-none">{{ action.id }}</td> -->
+						<td class="d-none">{{ action.idAct }}</td>
+						<td>{{ action.name }}</td>
+						<td class="d-none d-sm-block">{{ action.symbol }}</th>
+						<td>
+							<button type="button" class="btn btn-primary" data-toggle="tooltip" title="Add"><i class="fas fa-table"></i></button>
+							<button type="button" class="btn btn-success" data-toggle="tooltip" title="Edit"><i class="fas fa-edit"></i></button>
+							<button type="button" class="btn btn-danger" data-toggle="tooltip" title="Delete"><i class="far fa-trash-alt"></i></button>
+						</td>
+					</tr>
+				{% endfor %}
+				</tbody>
 			</table>
-			<a href="{{ url_for('main.newEdit') }}"> New Action </a>
+			<a href="{{ url_for('main.index') }}"> New Action </a>
+			<div id="results">
+				<div id="add"></div>
+			</div>
 		</div>
-		<script>
-			$(document).ready(function() {
-				$('#action.name').editable({
-					placement: 'bottom',
-					params: function(params) {
-						// make x-editable act like a normal form field
-						var newParams = {};
-						newParams[params.name + '-' + params.pk] = params.value;
-						return newParams;
-					}
-				});
-				$('#action.symbol').editable({
-					placement: 'bottom',
-					params: function(params) {
-						// make x-editable's POST act like a normal form field
-						var newParams = {};
-						newParams[params.name + '-' + params.pk] = params.value;
-						return newParams;
-					}
-				});
-			});
-		</script>
 	</body>
 </div>
+{% endblock %}
+
+{% block scripts %}
+<!-- Inclusion des parents avec super() OU ne pas mettre le block scripts-->
+{{ super() }}
+<!-- Where is My Site -->
+<script type=text/javascript>
+  $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+</script>
+<!-- Mon srcipt -->
+<script type=text/javascript src="{{ url_for('static', filename='js/my/deleteRow3.js') }}" ></script>
+<script type=text/javascript src="{{ url_for('static', filename='js/my/deleteLig.js') }}" ></script>
 {% endblock %}

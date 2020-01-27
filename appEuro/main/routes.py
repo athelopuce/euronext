@@ -26,25 +26,6 @@ def index():
                            listActions=Act.query.all())
 
 
-@main.route('/bienvenue')
-def bienvenue():
-    return render_template('bienvenue.html')
-
-
-# test router OK
-@main.route('/essai')
-def essai():
-    user_agent = request.headers.get('user-agent')
-    return '<p>Your brower is {}</p>'.format(user_agent)
-
-
-@main.route('/listAct')
-def listAct():
-    return render_template('listAct.html',
-                           title='listAct',
-                           listActions=Action.query.all())
-
-
 # new Version faire newAct pour ajouter action
 @main.route('/newAct', methods=['GET', 'POST', 'DELETE'])
 def newAct():
@@ -64,6 +45,13 @@ def newAct():
     return render_template('newAct.html',
                            title='newAct', form=form,
                            listActions=Act.query.all())
+
+
+@main.route("/delRow", methods=["POST"])
+def delRow():
+    a = request.form.get("id", 0)
+    b = request.form.get("name", type=str)
+    return jsonify(idAct=a, name=b)
 
 
 @main.route('/newEdit', methods=['GET', 'POST'])
@@ -105,128 +93,8 @@ def newOrdre():
     return render_template('newOrdre.html')
 
 
-@main.route('/interactive/')
-def interactive():
-    return render_template('interactive.html')
-
-
-# avec interactive route
-@main.route('/background_process')
-def background_process():
-    try:
-        lang = request.args.get('proglang', 0, type=str)
-        if lang.lower() == 'python':
-            return jsonify(result='You are wise')
-        else:
-            return jsonify(result='Try again.')
-    except Exception as e:
-        return str(e)
-
-
-# liste des actions aucompletes, listAction() et calcule a + b
-# fct avec route add()
-@main.route('/sdg')
-def sdg():
-    form = ListAction()
-    return render_template('sdg.html', form=form)
-
-
 @main.route('/listAction')
 def listAction():
     res = Act.query.all()
     list_actions = [r.as_dict() for r in res]
     return jsonify(list_actions)
-
-
-# exemple test1 addnumber
-@main.route('/addition/')
-def addition():
-    return render_template('addnumb.html', reload=time.time())
-
-
-@main.route("/api/add", methods=["GET"])
-def add():
-    a = request.args.get("a", 0, type=float)
-    b = request.args.get("b", 0, type=float)
-#    a = int(request.args.get('a', 0))
-#    b = int(request.args.get('b', 0))
-    return jsonify({
-            "a": a,
-            "b": b,
-            "add": a+b,
-            })
-
-
-# route de la page newAct delete
-@main.route('/foo', methods=['GET', 'POST'])
-def foo():
-    form = NewAct()  # inutile
-    if request.method == 'GET':
-        pin = requests.args.get('data-id')
-    if request.method == 'POST':
-        pin = form.name.data
-    print(pin)
-    flash(pin)
-    flash('pin {}'.format(pin))
-#    return redirect(url_for('.index'))
-#    return render_template('newAct.html')
-    if pin:
-        return jsonify({'pin': pin})
-    return jsonify({'error': 'missing data..'})
-
-
-# route de la page newAct delete
-@main.route('/#delete', methods=['GET', 'POST'])
-def delete():
-    pin = requests.args.get('data-id')
-    if pin:
-        return jsonify({'pin': pin})
-    return jsonify({'error': 'missing data..'})
-
-
-# delete actions
-@main.route('/process', methods=['POST'])
-def process():
-    action = request.form['action']
-    if action:
-        return jsonify({'action': action})
-    return jsonify({'error': 'missing data..'})
-
-
-@main.route("/_delete_student")
-def delete_student():
-#    student_id = request.args.get("data-id")
-    student_id = request.form.get("data-id")
-#    cur = mysql.connection.cursor()
-#    cur.execute("DELETE FROM students WHERE student_id = %s", (student_id,)
-#    conn.commit()
-    print(student_id)
-    if student_id:
-        return jsonify({'student_id': student_id})
-    return jsonify({'error': 'missing data..'})
-
-
-@main.route('/something/', methods=['post'])
-def something():
-    form = NewAct()
-    if form.validate_on_submit():
-        return jsonify(data={'message': 'hello {}'.format(form.foo.data)})
-    return jsonify(data=form.errors)
-
-
-# editable form
-@main.route('/support/team-members-update', methods=['GET','POST'])
-def update_team_members():
-    teamform = TeamForm()
-    teamform.title.data = "My Team"  # change the field's data
-#    for member in db.get('teammembers')  # some database function to get a list of team members
-#        member_form = MemberForm()
-#        member_form.name = member.name # These fields don't use 'data'
-#        member_form.member_id = member.id
-#        member_form.inbox_share = member.share
-#
-#        teamform.teammembers.append_entry(member_form)
-    for x in Model1.query.all():
-        print(x.test1, x.test2)
-
-    return render_template('edit-team.html', teamform=teamform)
