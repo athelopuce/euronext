@@ -7,26 +7,26 @@
 // edit -> .btn-success
 // delete -> .btn-danger
 
-$(document).ready(function(){
+/* $(document).ready(function(){
 	$('[data-toggle="tooltip"]').tooltip();
 	$(".btn-primary").hide(); // au démarrage
 	var actions = $("table td:last-child").html();
 	// Append table with add row form on add new button click
     $(".btn-info.add-new").click(function(){
 		$(this).attr("disabled", "disabled");
-		var index = $("table tbody tr:last-child").index();
+		var index = $("#example tbody tr:last-child").index();
         var row = '<tr>' +
             '<td><input type="text" class="form-control" name="name" id="name"></td>' +
-            '<td><input type="text" class="form-control" name="department" id="department"></td>' +
-            '<td><input type="text" class="form-control" name="phone" id="phone"></td>' +
+            '<td><input type="text" class="form-control" name="symbol" id="symbol"></td>' +
 			'<td>' + actions + '</td>' +
-        '</tr>';
-    	$("table").append(row);		
-		$("table tbody tr").eq(index + 1).find(".btn-primary, .btn-success").toggle();
+			'</tr>';
+    	$("#example").append(row);		
+		$("#example tbody tr").eq(index + 1).find(".btn-primary, .btn-success").toggle();
         $('[data-toggle="tooltip"]').tooltip();
-    });
+    }); */
+	
 	// Add row on add button click
-	$(document).on("click", ".btn-primary", function(){
+/* 	$(document).on("click", ".btn-primary", function(){
 		var empty = false;
 		var input = $(this).parents("tr").find('input[type="text"]');
         input.each(function(){
@@ -47,9 +47,10 @@ $(document).ready(function(){
 			$(this).parents("tr").find(".btn-primary").hide();
 			$(".btn-info.add-new").removeAttr("disabled");
 		}		
-    });
+    }); */
+	
 	// Edit row on edit button click
-	$(document).on("click", ".btn-success", function(){		
+/* 	$(document).on("click", ".btn-success", function(){		
         $(this).parents("tr").find("td:not(:last-child)").each(function(){
 			$(this).html('<input type="text" class="form-control" value="' + $(this).text() + '">');
 		});		
@@ -57,10 +58,11 @@ $(document).ready(function(){
 		$(this).parents("tr").find(".btn-success").hide();
 		$(this).parents("tr").find(".btn-primary").show();
 		$(".btn-info.add-new").attr("disabled", "disabled");
-    });
+    }); */
+	
 	// Delete row on delete button click
 /* 	$(document).on("click", ".btn-danger", function(){
         $(this).parents("tr").remove();
 		$(".btn-info.add-new").removeAttr("disabled");
     }); */
-});
+//});

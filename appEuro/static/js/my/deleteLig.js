@@ -1,61 +1,36 @@
-// save.js
-$(function() {
-    $('a#operation').bind('click', function() {
-      $.getJSON($SCRIPT_ROOT + '/_add_numbers', {
-        a: $('input[name="a"]').val(),
-        b: $('input[name="b"]').val()
-      }, function(data) {
-        $("#result").text(data.result);
-      });
-      return false;
-    });
+/* javascript page newAct
+* add-new -> .btn-info.add-new
+* add -> .btn-primary
+* edit -> .btn-success
+* delete -> .btn-danger */
+
+// Ajout ligne (row) à la fin du tableau on button click ".btn-info.add-newr"
+$(document).ready(function(){
+	$('[data-toggle="tooltip"]').tooltip();
+	$(".btn-primary").hide(); // au démarrage
+	var actions = $("table td:last-child").html(); // ajout des buttons edit et del
+	// Append table with add row form on add new button click
+    $(".btn-info.add-new").click(function(){
+		$(this).attr("disabled", "disabled");
+		var index = $("#example tbody tr:last-child").index();
+        var row = '<tr>' +
+			'<td class="d-none">' + index + 1 + '</td>' +
+            '<td><input type="text" class="form-control" name="name" id="name"></td>' +
+            '<td><input type="text" class="form-control" name="symbol" id="symbol"></td>' +
+			'<td>' + actions + '</td>' +
+			'</tr>';
+    	$("#example").append(row);		
+		$("#example tbody tr").eq(index + 1).find(".btn-primary, .btn-success").toggle();
+        $('[data-toggle="tooltip"]').tooltip();
+	});
 });
 
-
-function addSubmit(ev) {
-	ev.preventDefault();
-	$.ajax({
-		method: 'POST',
-		url: $SCRIPT_ROOT + '/add',
-		data: $(this).serialize()
-	}).done(addShow);
-}
-
-function addShow(data) {
-	$('#resultat').text(data.result);
-}
-
-$('#calc').on('submit', addSubmit);
-
-
-//$( "#example tbody" ).on( "click", "tr", function(event) {
-/* $( "#example tbody" ).on( "click", ".btn-danger", function(event) {
-  console.log( $( this ).text() );
-  console.log($(this).html());
-
-  event.preventDefault();
-  // recherche data
-  var x=[]
-  $(this).children("td").each(function(index){
-	  console.log( index + ": " + $( this ).text() );
-	  x.push( $( this ).text());
-  })
-  console.log(x);
-  $.ajax({
-		dataType: "json",
-		method: 'POST',
-		url: $SCRIPT_ROOT + '/delRow',
-		data: { "id": x[0],
-		        "name": x[1],
-				"symbol": x[2]
-			   }
-	});
-}); */
+// Delete row on delete button click ".btn-danger"
 $(document).on("click", ".btn-danger", function(event){
 	event.preventDefault();
 	console.log( $( this ).text() );
 	console.log($(this).html());
-	// recherche data
+	// stock data in var x
     var x=[]
 	$(this).parents("tr").find("td:not(:last-child)").each(function(index){
 			//console.log( index + ": " + $( this ).text() );
@@ -75,3 +50,53 @@ $(document).on("click", ".btn-danger", function(event){
 	$(".btn-info.add-new").removeAttr("disabled");
 });
 
+// Edit row on edit button click ".btn-success"
+$(document).on("click", ".btn-success", function(){		
+	$(this).parents("tr").find("td:not(:last-child)").each(function(){
+		$(this).html('<input type="text" class="form-control" value="' + $(this).text() + '">');
+	});		
+	//$(this).parents("tr").find(".btn-primary, .btn-success").toggle();
+	$(this).parents("tr").find(".btn-success").hide();
+	$(this).parents("tr").find(".btn-primary").show();
+	$(".btn-info.add-new").attr("disabled", "disabled");
+});
+
+// Add contenus on add button click ".btn-primary"
+$(document).on("click", ".btn-primary", function(){
+	var empty = false;
+	var input = $(this).parents("tr").find('input[type="text"]');
+	input.each(function(){
+		if(!$(this).val()){
+			$(this).addClass("error");
+			empty = true;
+		} else{
+			$(this).removeClass("error");
+		}
+	});
+	$(this).parents("tr").find(".error").first().focus();
+	if(!empty){
+		input.each(function(){
+			$(this).parent("td").html($(this).val());
+		});			
+		//$(this).parents("tr").find(".btn-success").hide()
+		$(this).parents("tr").find(".btn-success").show();
+		$(this).parents("tr").find(".btn-primary").hide();
+		$(".btn-info.add-new").removeAttr("disabled");
+	}
+	// envoi data au serveur
+	var x=[]
+	$(this).parents("tr").find("td:not(:last-child)").each(function(index){
+			//console.log( index + ": " + $( this ).text() );
+			x.push( $( this ).text());
+	});
+	console.log(x);
+	$.ajax({
+		dataType: "json",
+		method: 'POST',
+		url: $SCRIPT_ROOT + '/editRow',
+		data: { "id": x[0],
+		        "name": x[1],
+				"symbol": x[2]
+			   }
+	});
+});

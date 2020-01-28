@@ -31,7 +31,7 @@
 						<!-- <td class="d-none">{{ action.id }}</td> -->
 						<td class="d-none">{{ action.idAct }}</td>
 						<td>{{ action.name }}</td>
-						<td class="d-none d-sm-block">{{ action.symbol }}</th>
+						<td class="d-none d-sm-block">{{ action.symbol }}</td>
 						<td>
 							<button type="button" class="btn btn-primary" data-toggle="tooltip" title="Add"><i class="fas fa-table"></i></button>
 							<button type="button" class="btn btn-success" data-toggle="tooltip" title="Edit"><i class="fas fa-edit"></i></button>
@@ -41,10 +41,6 @@
 				{% endfor %}
 				</tbody>
 			</table>
-			<a href="{{ url_for('main.index') }}"> New Action </a>
-			<div id="results">
-				<div id="add"></div>
-			</div>
 		</div>
 	</body>
 </div>
@@ -58,6 +54,6 @@
   $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
 </script>
 <!-- Mon srcipt -->
-<script type=text/javascript src="{{ url_for('static', filename='js/my/deleteRow3.js') }}" ></script>
+<!-- <script type=text/javascript src="{{ url_for('static', filename='js/my/deleteRow3.js') }}" ></script> -->
 <script type=text/javascript src="{{ url_for('static', filename='js/my/deleteLig.js') }}" ></script>
 {% endblock %}

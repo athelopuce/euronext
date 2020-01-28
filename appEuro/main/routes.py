@@ -54,6 +54,13 @@ def delRow():
     return jsonify(idAct=a, name=b)
 
 
+@main.route("/editRow", methods=["POST"])
+def editRow():
+    a = request.form.get("id", 0)
+    b = request.form.get("name", type=str)
+    return jsonify(idAct=a, nameEdit=b)
+
+
 @main.route('/newEdit', methods=['GET', 'POST'])
 def newEdit():
     form = NewAct()
