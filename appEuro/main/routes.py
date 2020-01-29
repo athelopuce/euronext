@@ -47,6 +47,7 @@ def newAct():
                            listActions=Act.query.all())
 
 
+# with ajax
 @main.route("/delRow", methods=["POST"])
 def delRow():
     i = request.form.get("id", type=int)
@@ -59,6 +60,7 @@ def delRow():
     return jsonify(idAct=i, name=n)
 
 
+# with ajax
 @main.route("/editRow", methods=["POST"])
 def editRow():
     i = request.form.get("id", type=int)
