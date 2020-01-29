@@ -57,7 +57,7 @@ class Act(db.Model):
         return '<Act %r>' % self.name
 
     def __str__(self):
-        return "%d: %s de marque %s = %.2f euros" % (self.idAct,
+        return "idAct: %d: %s symbol %s = %.2f euros" % (self.idAct,
                                                      self.name,
                                                      self.symbol,
                                                      self.unitaryPrice)

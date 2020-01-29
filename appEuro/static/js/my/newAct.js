@@ -65,6 +65,7 @@ $(document).on("click", ".btn-success", function(){
 $(document).on("click", ".btn-primary", function(){
 	var empty = false;
 	var input = $(this).parents("tr").find('input[type="text"]');
+	// si contenu vide
 	input.each(function(){
 		if(!$(this).val()){
 			$(this).addClass("error");
@@ -89,14 +90,26 @@ $(document).on("click", ".btn-primary", function(){
 			//console.log( index + ": " + $( this ).text() );
 			x.push( $( this ).text());
 	});
-	console.log(x);
+	//console.log(x);
+	
+	/* Mémorise index de la ligne modifiée */
+	var index = $(this).parents("tr").find("td").first();
+	//console.log(index);
+	
 	$.ajax({
-		dataType: "json",
 		method: 'POST',
 		url: $SCRIPT_ROOT + '/editRow',
 		data: { "id": x[0],
 		        "name": x[1],
 				"symbol": x[2]
-			   }
+			   },
+		dataType: "json",
+		success: function(resp) {
+			//console.log('response idAct: ' + resp.idAct); // la reponse de json
+			//console.log( index.eq(0))
+			index.eq(0).text(resp.idAct);
+			$('.success').show();
+			$('.success').delay(3000).fadeOut();
+		}
 	});
 });

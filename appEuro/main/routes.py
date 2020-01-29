@@ -49,16 +49,39 @@ def newAct():
 
 @main.route("/delRow", methods=["POST"])
 def delRow():
-    a = request.form.get("id", 0)
-    b = request.form.get("name", type=str)
-    return jsonify(idAct=a, name=b)
+    i = request.form.get("id", type=int)
+    n = request.form.get("name", type=str)
+#    act = Act.query.filter_by(idAct=i).first()
+    item = Act.query.get(i)  # get idAct
+    db.session.delete(item)
+    db.session.commit()
+    flash('Congratulations, action was successfully deleted!')
+    return jsonify(idAct=i, name=n)
 
 
 @main.route("/editRow", methods=["POST"])
 def editRow():
-    a = request.form.get("id", 0)
-    b = request.form.get("name", type=str)
-    return jsonify(idAct=a, nameEdit=b)
+    i = request.form.get("id", type=int)
+    n = request.form.get("name", 0)
+    s = request.form.get("symbol", type=str)
+#    act = Act.query.filter_by(name=n, symbol=s).first()_or_404()
+    item = Act.query.get(i)  # get idAct
+    if item is None:
+        # new act
+        act = Act(name=n, symbol=s)
+        db.session.add(act)
+        # db.session.flush()
+        print('Return new id Act value %s\n' % act.idAct)
+        flash('Congratulations, action was successfully added!')
+    else:
+        item.name = n
+        item.symbol = s
+        flash('Congratulations, action was successfully updated!')
+    print('item value: %s' % item)
+    db.session.commit()
+    if item is None:
+        i = act.idAct
+    return jsonify(idAct=i, nameEdit=n, symbol=s)
 
 
 @main.route('/newEdit', methods=['GET', 'POST'])
