@@ -6,9 +6,9 @@ Created on Tue Dec 10 18:30:10 2019
 """
 from flask import request, flash, url_for, redirect, render_template, session
 from .. import db
-from ..models import Action, Ordre, Act
+from ..models import Action, Ord, Act
 from . import main
-from .forms import MyForm, NewAct, ListAction, MemberForm, TeamForm
+from .forms import MyForm, NewAct, NewOrd, ListAction, MemberForm, TeamForm
 from flask import jsonify  # pour route interactive
 import requests  # pour page newAct delete '/foo'
 import time  # for test1 addnumber
@@ -30,24 +30,24 @@ def index():
 @main.route('/newAct', methods=['GET', 'POST', 'DELETE'])
 def newAct():
     form = NewAct()
-    if form.validate_on_submit():
-        act = Act(name=form.name.data, symbol=form.symbol.data)
-        db.session.add(act)
-        db.session.commit()
-        flash('Congratulations, action was successfully added!')
-        return redirect(url_for('.index'))  # or main.index
-    elif request.method == 'DELETE':
-        # Retrieve data from the request and remove it from the database
-        myId = request.form.get('column1')
-        print(myId)
-#        print(nameid)
-        print('ok')
+#    if form.validate_on_submit():
+#        act = Act(name=form.name.data, symbol=form.symbol.data)
+#        db.session.add(act)
+#        db.session.commit()
+#        flash('Congratulations, action was successfully added!')
+#        return redirect(url_for('.index'))  # or main.index
+#    elif request.method == 'DELETE':
+#        # Retrieve data from the request and remove it from the database
+#        myId = request.form.get('column1')
+#        print(myId)
+##        print(nameid)
+#        print('ok')
     return render_template('newAct.html',
                            title='newAct', form=form,
                            listActions=Act.query.all())
 
 
-# with ajax
+# with ajax et newAct
 @main.route("/delRow", methods=["POST"])
 def delRow():
     i = request.form.get("id", type=int)
@@ -60,7 +60,7 @@ def delRow():
     return jsonify(idAct=i, name=n)
 
 
-# with ajax
+# with ajax et newAct
 @main.route("/editRow", methods=["POST"])
 def editRow():
     i = request.form.get("id", type=int)
@@ -86,11 +86,15 @@ def editRow():
     return jsonify(idAct=i, nameEdit=n, symbol=s)
 
 
+# a Revoir
 @main.route('/newEdit', methods=['GET', 'POST'])
 def newEdit():
     form = NewAct()
     if form.validate_on_submit():
-        act = Act(name=form.name.data, symbol=form.symbol.data)
+        act = Act(
+                name=form.name.data,
+                symbol=form.symbol.data
+                )
         db.session.add(act)
         db.session.commit()
         flash('Congratulations, action was successfully added!')
@@ -106,25 +110,43 @@ def newEdit():
                            listActions=Act.query.all())
 
 
-@main.route('/newOrdre', methods=['GET', 'POST'])
-def newOrdre():
-    if request.method == 'POST':
-        if not request.form['name'] or not request.form['symbole']:
-            flash('Please enter all the fields', 'error')
-        else:
-            ordre = Ordre(nombre=request.form['nombre'],
-                          prix=request.form['prix'],
-                          date=request.form['date'],
-                          action_id=request.form['symb'])
+# table des ordres passés
+@main.route('/newOrd', methods=['GET', 'POST'])
+def newOrd():
+    form = NewOrd()
+    if form.validate_on_submit():
+        ord = Ord(
+                sens=form.sens.data,
+                ordDate=form.ordDate.data,
+                PriceAchat=form.PriceAchat.data,
+                quantity=form.quantity.data,
+                idAct=1
+                )
+        db.session.add(ord)
+        db.session.commit()
+        flash('Congratulations, order was successfully added!')
+        return redirect(url_for('.index'))  # or main.index
+    return render_template('newOrd.html',
+                           title='newOrd', form=form,
+                           listOrdres=Ord.query.all())
+#    if request.method == 'POST':
+#        if not request.form['name'] or not request.form['symbole']:
+#            flash('Please enter all the fields', 'error')
+#        else:
+#            ordre = Ordre(nombre=request.form['nombre'],
+#                          prix=request.form['prix'],
+#                          date=request.form['date'],
+#                          action_id=request.form['symb'])
+#
+#            db.session.add(ordre)
+#            db.session.commit()
+#
+#            flash('Record was successfully added')
+#            return redirect(url_for('.index'))
+#    return render_template('newOrdre.html')
 
-            db.session.add(ordre)
-            db.session.commit()
 
-            flash('Record was successfully added')
-            return redirect(url_for('.index'))
-    return render_template('newOrdre.html')
-
-
+# a Revoir
 @main.route('/listAction')
 def listAction():
     res = Act.query.all()

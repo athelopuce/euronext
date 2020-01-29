@@ -1,0 +1,76 @@
+{% extends "starter.html" %}
+
+{% block title %}NewOrd{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+	<body>
+		<div class="wrapper-editor">
+			<div class="container">
+				{% for message in get_flashed_messages() %}
+				<div class="alert alert-warning">
+					<button type="button" class="close" data-dismiss="alert">&times;</button>
+					{{ message }}
+				</div>
+				{% endfor %}
+			</div>
+	  
+			<form action="/" method="post">
+				{{ form.hidden_tag() }}
+				<p>
+					{{ form.sens.label }}<br>
+					{{ form.sens(size=10) }}<br>
+					{% for error in form.sens.errors %}
+						<span style="color: red;">[{{ error }}]</span>
+					{% endfor %}
+				</p>
+				<p>
+					{{ form.ordDate.label }}<br>
+					{{ form.ordDate() }}<br>
+					{% for error in form.ordDate.errors %}
+						<span style="color: red;">[{{ error }}]</span>
+					{% endfor %}
+				</p>
+				<p>
+					{{ form.PriceAchat.label }} {{ form.PriceAchat(size=10) }}
+					{% for error in form.PriceAchat.errors %}
+						<span style="color: red;">[{{ error }}]</span>
+					{% endfor %}
+				</p>
+				<p>
+					{{ form.quantity.label }} {{ form.quantity(size=5) }}
+					{% for error in form.quantity.errors %}
+						<span style="color: red;">[{{ error }}]</span>
+					{% endfor %}
+				</p>
+				<p>{{ form.submit() }}</p>
+			</form>
+
+			<table class="table table-bordered table-hover" id="ordres" >
+				<caption>List of orders</caption>
+				<thead class="thead-dark">
+					<tr>
+						<th>Id</th>
+						<th>Sens</th>
+						<th>Quantite</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+				<tbody>
+				{% for ordre in listOrdres %}
+					<tr>
+						<td>{{ ordre.idOrd }}</td>
+						<td>{{ ordre.sens }}</td>
+						<td>{{ ordre.quantity }}</td>
+						<td>
+							<button type="button" class="btn btn-primary" data-toggle="tooltip" title="Add"><i class="fas fa-table"></i></button>
+							<button type="button" class="btn btn-success" data-toggle="tooltip" title="Edit"><i class="fas fa-edit"></i></button>
+							<button type="button" class="btn btn-danger" data-toggle="tooltip" title="Delete"><i class="far fa-trash-alt"></i></button>
+						</td>
+					</tr>
+				{% endfor %}
+			</table>
+		</div> <!-- wrapper-editor -->
+	</body>
+</div>
+{% endblock %}

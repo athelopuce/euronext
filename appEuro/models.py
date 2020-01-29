@@ -77,7 +77,7 @@ class Act(db.Model):
 
 class Ord(db.Model):
     '''
-    Ordre
+    Ordre d'achat ou de vente
     '''
 
     __tablename__ = "T_Ords"
@@ -102,6 +102,7 @@ class Ord(db.Model):
 
 class OrdLine(db.Model):
     '''
+    Liste des lignes actions.
     relation entre
     CommandLine = 1 article + 1 commande
     OrdLine (operation) = 1 ord + 1 cpt
