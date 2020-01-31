@@ -58,9 +58,9 @@ class Act(db.Model):
 
     def __str__(self):
         return "idAct: %d: %s symbol %s = %.2f euros" % (self.idAct,
-                                                     self.name,
-                                                     self.symbol,
-                                                     self.unitaryPrice)
+                                                         self.name,
+                                                         self.symbol,
+                                                         self.unitaryPrice)
 
     def as_dict(self):
         return {'name': self.name}
@@ -94,10 +94,11 @@ class Ord(db.Model):
         return '<Ord %r>' % self.idOrd
 
     def __str__(self):
-        return "%d: %s de marque %s = %.2f euros" % (self.idOrd,
-                                                     self.sens,
-                                                     self.ordDate,
-                                                     self.unitaryPrice)
+        return "%d: %s de marque %d à %.2f €, le %s" % (self.idOrd,
+                                                        self.sens,
+                                                        self.idAct,
+                                                        self.PriceAchat,
+                                                        self.ordDate)
 
 
 class OrdLine(db.Model):

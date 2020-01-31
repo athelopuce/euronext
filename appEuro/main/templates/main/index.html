@@ -14,7 +14,7 @@
     {% endif %}
 	
 	<!-- A mettre en forme avec bootstrap -->
-	<table class="table" id="owned_stock_table">
+	<table class="table table-bordered table-hover" id="listAct" >
 		<thead>
 			<tr>
 				<th>Name</th>
@@ -32,5 +32,6 @@
 		</tbody>
 	</table>
 </div>
+{# insere le formulaire en son entier #}
 {{ wtf.quick_form(form) }}
 {% endblock %}

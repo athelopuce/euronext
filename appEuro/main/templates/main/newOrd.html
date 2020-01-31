@@ -1,4 +1,6 @@
 {% extends "starter.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% from "_formhelpers.html" import render_field %}
 
 {% block title %}NewOrd{% endblock %}
 
@@ -14,36 +16,18 @@
 				</div>
 				{% endfor %}
 			</div>
-	  
-			<form action="/" method="post">
-				{{ form.hidden_tag() }}
-				<p>
-					{{ form.sens.label }}<br>
-					{{ form.sens(size=10) }}<br>
-					{% for error in form.sens.errors %}
-						<span style="color: red;">[{{ error }}]</span>
-					{% endfor %}
-				</p>
-				<p>
-					{{ form.ordDate.label }}<br>
-					{{ form.ordDate() }}<br>
-					{% for error in form.ordDate.errors %}
-						<span style="color: red;">[{{ error }}]</span>
-					{% endfor %}
-				</p>
-				<p>
-					{{ form.PriceAchat.label }} {{ form.PriceAchat(size=10) }}
-					{% for error in form.PriceAchat.errors %}
-						<span style="color: red;">[{{ error }}]</span>
-					{% endfor %}
-				</p>
-				<p>
-					{{ form.quantity.label }} {{ form.quantity(size=5) }}
-					{% for error in form.quantity.errors %}
-						<span style="color: red;">[{{ error }}]</span>
-					{% endfor %}
-				</p>
-				<p>{{ form.submit() }}</p>
+			
+			<form method=post>
+				{{ form.csrf_token }}
+			  <dl>
+				{{ render_field(form.sens) }}
+				{{ render_field(form.ordDate) }}
+				{{ render_field(form.PriceAchat, placeholder="prix action") }}
+				{{ render_field(form.quantity, placeholder="quantité") }}
+				{{ render_field(form.idAct) }}
+			  </dl>
+				{{ form.submit }}
+			  <!-- <p><input type=submit value=Register> -->
 			</form>
 
 			<table class="table table-bordered table-hover" id="ordres" >
@@ -52,7 +36,10 @@
 					<tr>
 						<th>Id</th>
 						<th>Sens</th>
+						<th>Date</th>
+						<th>Prix</th>
 						<th>Quantite</th>
+						<th>Titre</th>
 						<th>Action</th>
 					</tr>
 				</thead>
@@ -61,7 +48,10 @@
 					<tr>
 						<td>{{ ordre.idOrd }}</td>
 						<td>{{ ordre.sens }}</td>
+						<td>{{ ordre.ordDate }}</td>
+						<td>{{ ordre.PriceAchat }}</td>
 						<td>{{ ordre.quantity }}</td>
+						<td>{{ ordre.idAct }}</td>
 						<td>
 							<button type="button" class="btn btn-primary" data-toggle="tooltip" title="Add"><i class="fas fa-table"></i></button>
 							<button type="button" class="btn btn-success" data-toggle="tooltip" title="Edit"><i class="fas fa-edit"></i></button>

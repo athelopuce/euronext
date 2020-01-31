@@ -4,32 +4,44 @@ Created on Tue Dec 10 18:30:10 2019
 
 @author: Utilisateur
 """
-from flask import request, flash, url_for, redirect, render_template, session
+from flask import request, flash, url_for, redirect, render_template
 from .. import db
-from ..models import Action, Ord, Act
+from ..models import Ord, Act
 from . import main
-from .forms import MyForm, NewAct, NewOrd, ListAction, MemberForm, TeamForm
+from .forms import MyForm, NewAct, NewOrd
 from flask import jsonify  # pour route interactive
-import requests  # pour page newAct delete '/foo'
-import time  # for test1 addnumber
+# import requests  # pour page newAct delete '/foo'
+# import time  # for test1 addnumber
 
-import logging
+# import logging
 
 
 @main.route('/')
+@main.route('/index')
 def index():
+#    return "Hello, World!"
     form = MyForm()
-#    return render_template('base.html', listActions=Action.query.all())
-    return render_template('index.html',
-                           form=form, name=session.get('name'),
-                           known=session.get('known', False),
-                           listActions=Act.query.all())
+    print(url_for('.index'))
+    return render_template('main/index.html',
+                           form=form,
+                           listActions=Act.query.all()
+                           )
+
+
+#    return render_template(url_for('.index'),
+#                           form=form,
+#                           listActions=Act.query.all())
+#    return render_template('index.html',
+#                           form=form, name=session.get('name'),
+#                           known=session.get('known', False),
+#                           listActions=Act.query.all())
 
 
 # new Version faire newAct pour ajouter action
 @main.route('/newAct', methods=['GET', 'POST', 'DELETE'])
 def newAct():
     form = NewAct()
+
 #    if form.validate_on_submit():
 #        act = Act(name=form.name.data, symbol=form.symbol.data)
 #        db.session.add(act)
@@ -40,9 +52,10 @@ def newAct():
 #        # Retrieve data from the request and remove it from the database
 #        myId = request.form.get('column1')
 #        print(myId)
-##        print(nameid)
+#        print(nameid)
 #        print('ok')
-    return render_template('newAct.html',
+
+    return render_template('main/newAct.html',
                            title='newAct', form=form,
                            listActions=Act.query.all())
 
@@ -90,7 +103,7 @@ def editRow():
 @main.route('/newEdit', methods=['GET', 'POST'])
 def newEdit():
     form = NewAct()
-    if form.validate_on_submit():
+    if request.method == 'POST' and form.validate():
         act = Act(
                 name=form.name.data,
                 symbol=form.symbol.data
@@ -114,36 +127,40 @@ def newEdit():
 @main.route('/newOrd', methods=['GET', 'POST'])
 def newOrd():
     form = NewOrd()
-    if form.validate_on_submit():
-        ord = Ord(
-                sens=form.sens.data,
-                ordDate=form.ordDate.data,
-                PriceAchat=form.PriceAchat.data,
-                quantity=form.quantity.data,
-                idAct=1
-                )
-        db.session.add(ord)
-        db.session.commit()
-        flash('Congratulations, order was successfully added!')
-        return redirect(url_for('.index'))  # or main.index
-    return render_template('newOrd.html',
+    available_act = Act.query.all()
+    # Now forming the list of tuples for SelectField
+    groups_act = [(i.idAct, i.name) for i in available_act]
+    form = NewOrd(request.form)  # form = NewOrd(request.form)
+    # passing groups_act to the form
+    form.idAct.choices = groups_act
+    print('form1: %s' % form.validate())
+    print('form2: %s' % form.validate_on_submit())
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            print(form.sens.data)
+            print('sens: %s' % form.sens.data)
+            print('date: %s' % form.ordDate.data)
+            print('quantity: %d' % form.quantity.data)
+            print('idAct: %d' % form.idAct.data)
+            ord = Ord(
+                    sens=form.sens.data,
+                    ordDate=form.ordDate.data,
+                    PriceAchat=form.PriceAchat.data,
+                    quantity=form.quantity.data,
+                    idAct=form.idAct.data
+                    )
+            db.session.add(ord)
+            db.session.commit()
+            print(ord)
+            flash('New order, {}, added!'.format(
+                    ord.idAct), 'success')
+            return redirect(url_for('.index'))  # or main.index
+        else:
+            flash_errors(form)
+            flash('ERROR! Recipe was not added.', 'error')
+    return render_template('main/newOrd.html',
                            title='newOrd', form=form,
                            listOrdres=Ord.query.all())
-#    if request.method == 'POST':
-#        if not request.form['name'] or not request.form['symbole']:
-#            flash('Please enter all the fields', 'error')
-#        else:
-#            ordre = Ordre(nombre=request.form['nombre'],
-#                          prix=request.form['prix'],
-#                          date=request.form['date'],
-#                          action_id=request.form['symb'])
-#
-#            db.session.add(ordre)
-#            db.session.commit()
-#
-#            flash('Record was successfully added')
-#            return redirect(url_for('.index'))
-#    return render_template('newOrdre.html')
 
 
 # a Revoir
