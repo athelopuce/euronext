@@ -30,7 +30,7 @@
 			  <!-- <p><input type=submit value=Register> -->
 			</form>
 
-			<table class="table table-bordered table-hover" id="ordres" >
+			<table class="table table-bordered table-hover" id="tableType" >
 				<caption>List of orders</caption>
 				<thead class="thead-dark">
 					<tr>
@@ -63,4 +63,15 @@
 		</div> <!-- wrapper-editor -->
 	</body>
 </div>
+{% endblock %}
+{% block scripts %}
+<!-- Inclusion des parents avec super() OU ne pas mettre le block scripts-->
+{{ super() }}
+<!-- Where is My Site -->
+<script type=text/javascript>
+  $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+</script>
+<!-- Mon srcipt -->
+<!-- <script type=text/javascript src="{{ url_for('static', filename='js/my/deleteRow3.js') }}" ></script> -->
+<script type=text/javascript src="{{ url_for('static', filename='js/my/newOrd.js') }}" ></script>
 {% endblock %}
