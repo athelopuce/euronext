@@ -28,8 +28,8 @@ $(document).ready(function(){
 // Delete row on delete button click ".btn-danger"
 $(document).on("click", ".btn-danger", function(event){
 	event.preventDefault();
-	console.log( $( this ).text() );
-	console.log($(this).html());
+	// console.log( $( this ).text() );
+	// console.log($(this).html());
 	// stock data in var x
     var x=[]
 	$(this).parents("tr").find("td:not(:last-child)").each(function(index){
@@ -43,7 +43,8 @@ $(document).on("click", ".btn-danger", function(event){
 		url: $SCRIPT_ROOT + '/delRow',
 		data: { "id": x[0],
 		        "name": x[1],
-				"symbol": x[2]
+				"symbol": x[2],
+				"table":"newOrd"
 			   }
 	});
 	$(this).parents("tr").remove();

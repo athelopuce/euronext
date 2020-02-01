@@ -65,12 +65,22 @@ def newAct():
 def delRow():
     i = request.form.get("id", type=int)
     n = request.form.get("name", type=str)
+    t = request.form.get("table", type=str)  # table
 #    act = Act.query.filter_by(idAct=i).first()
-    item = Act.query.get(i)  # get idAct
-    db.session.delete(item)
-    db.session.commit()
-    flash('Congratulations, action was successfully deleted!')
-    return jsonify(idAct=i, name=n)
+    if t == 'newAct':
+        item = Act.query.get(i)  # get idAct
+        db.session.delete(item)
+        db.session.commit()
+        flash('Congratulations, stock, {}, deleted!'.format(
+                item.name), 'success')
+        return jsonify(ida=i, name=n)
+    if t == 'newOrd':
+        item = Ord.query.get(i)  # get idAct
+        db.session.delete(item)
+        db.session.commit()
+        flash('Congratulations, order, {}, deleted!'.format(
+                item.name), 'success')
+        return jsonify(ido=i, name=n)
 
 
 # with ajax et newAct
@@ -87,11 +97,13 @@ def editRow():
         db.session.add(act)
         # db.session.flush()
         print('Return new id Act value %s\n' % act.idAct)
-        flash('Congratulations, action was successfully added!')
+        flash('New stock, {}, added!'.format(
+            act.name), 'success')
     else:
         item.name = n
         item.symbol = s
-        flash('Congratulations, action was successfully updated!')
+        flash('New stock, {}, updated!'.format(
+            item.name), 'success')
     print('item value: %s' % item)
     db.session.commit()
     if item is None:
@@ -110,7 +122,8 @@ def newEdit():
                 )
         db.session.add(act)
         db.session.commit()
-        flash('Congratulations, action was successfully added!')
+        flash('New stock, {}, added!'.format(
+                    act.name), 'success')
         return redirect(url_for('.index'))  # or main.index
     elif request.method == 'POST':
         # Retrieve data from the request and remove it from the database
@@ -124,7 +137,7 @@ def newEdit():
 
 
 # table des ordres passés
-@main.route('/newOrd', methods=['GET', 'POST'])
+@main.route('/newOrd', methods=['GET', 'POST', 'DEL'])
 def newOrd():
     form = NewOrd()
     available_act = Act.query.all()
@@ -156,8 +169,9 @@ def newOrd():
                     ord.idAct), 'success')
             return redirect(url_for('.index'))  # or main.index
         else:
-            flash_errors(form)
             flash('ERROR! Recipe was not added.', 'error')
+    if request.method == 'DEL':
+        print('del')
     return render_template('main/newOrd.html',
                            title='newOrd', form=form,
                            listOrdres=Ord.query.all())
