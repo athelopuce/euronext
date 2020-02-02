@@ -119,13 +119,6 @@ def test_new_userV0(new_user):
     assert u.connectionNumber == 3
 
 
-# doublon du fichier test-users.py pour essai
-def test_bienvenue2(test_client):
-    # bienvenue
-    response = test_client.get('/bienvenue')
-    assert response.status_code == 200  # mettre 200 (ou 300 pour erreur)
-
-
 # test table User
 def test_user_query_all(test_client, init2_database):
     from appEuro.models import User

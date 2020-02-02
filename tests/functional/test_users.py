@@ -10,39 +10,42 @@ behavior of the users blueprint.
 ###########
 # /NewAct #
 ###########
-def test_NewAct_page(test_client):
+def test_newAct_page(test_client, init2_database):
     """
     GIVEN a Flask application
     WHEN the '/newAct' page is requested (GET)
     THEN check the response is valid
     """
-    response = test_client.get('/newAct')
+    response = test_client.get('/newAct',)
     assert response.status_code == 200
-    assert b"newAct" in response.data
+    assert b"newAct.js" in response.data
     assert b"Symbol" in response.data
-    assert b"Titre" in response.data
-    assert b"New actions" in response.data
-
-
-##############
-# /bienvenue #
-##############
-def test_bienvenue(test_client):
-    # bienvenue
-    response = test_client.get('/bienvenue')
-    assert response.status_code == 300
+    assert b"Name" in response.data
+    assert b"Action" in response.data
 
 
 #####
 # / #
 #####
-def test_home_page(test_client):
+def test_homeTest(test_client):
+    '''
+    test acces au site page index.html
+    '''
+    response = test_client.get('/homeTest')
+    assert response.status_code == 200
+    assert b"name" in response.data  # MyForm() with name
+    assert b"Pleased to meet you!" in response.data
+    assert b"Happy to see you again!" not in response.data
+
+
+def test_home_page_get(test_client):
     """
     GIVEN a Flask application
     WHEN the '/' page is requested (GET)
     THEN check the response is valid
     """
-    response = test_client.get('/')
+    # A revoir manque liste des actions qui devrait disparaitre
+    response = test_client.get('/index')
     assert response.status_code == 200
 #    assert b"Welcome to the Flask User Management Example!" in response.data
 #    assert b"Need an account?" in response.data

@@ -16,6 +16,16 @@ from flask import jsonify  # pour route interactive
 # import logging
 
 
+@main.route('/homeTest')
+def homeTest():
+#    return "Hello, World!"
+    form = MyForm()
+    print(url_for('.index'))
+    return render_template('main/index.html',
+                           form=form
+                           )
+
+
 @main.route('/')
 @main.route('/index')
 def index():
