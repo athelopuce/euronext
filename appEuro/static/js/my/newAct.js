@@ -43,7 +43,8 @@ $(document).on("click", ".btn-danger", function(event){
 		url: $SCRIPT_ROOT + '/delRow',
 		data: { "id": x[0],
 		        "name": x[1],
-				"symbol": x[2]
+				"symbol": x[2],
+				"table":"newAct"
 			   }
 	});
 	$(this).parents("tr").remove();
@@ -101,7 +102,8 @@ $(document).on("click", ".btn-primary", function(){
 		url: $SCRIPT_ROOT + '/editRow',
 		data: { "id": x[0],
 		        "name": x[1],
-				"symbol": x[2]
+				"symbol": x[2],
+				"table":"newAct"
 			   },
 		dataType: "json",
 		success: function(resp) {

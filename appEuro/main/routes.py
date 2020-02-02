@@ -64,23 +64,23 @@ def newAct():
 @main.route("/delRow", methods=["POST"])
 def delRow():
     i = request.form.get("id", type=int)
-    n = request.form.get("name", type=str)
     t = request.form.get("table", type=str)  # table
 #    act = Act.query.filter_by(idAct=i).first()
     if t == 'newAct':
         item = Act.query.get(i)  # get idAct
+        n = request.form.get("name", type=str)  # à effacer
         db.session.delete(item)
         db.session.commit()
-        flash('Congratulations, stock, {}, deleted!'.format(
+        flash('Congratulations, stock {} deleted!'.format(
                 item.name), 'success')
-        return jsonify(ida=i, name=n)
+        return jsonify(ida=i, name=item.name)
     if t == 'newOrd':
         item = Ord.query.get(i)  # get idAct
         db.session.delete(item)
         db.session.commit()
-        flash('Congratulations, order, {}, deleted!'.format(
-                item.name), 'success')
-        return jsonify(ido=i, name=n)
+        flash('Congratulations, order {} deleted!'.format(
+                item.idAct), 'success')
+        return jsonify(ido=i, sens=item.sens)
 
 
 # with ajax et newAct
@@ -89,26 +89,28 @@ def editRow():
     i = request.form.get("id", type=int)
     n = request.form.get("name", 0)
     s = request.form.get("symbol", type=str)
+    t = request.form.get("table", type=str)  # table
 #    act = Act.query.filter_by(name=n, symbol=s).first()_or_404()
     item = Act.query.get(i)  # get idAct
     if item is None:
-        # new act
-        act = Act(name=n, symbol=s)
-        db.session.add(act)
-        # db.session.flush()
-        print('Return new id Act value %s\n' % act.idAct)
-        flash('New stock, {}, added!'.format(
-            act.name), 'success')
+        if t == 'newAct':
+            # new act
+            act = Act(name=item.name, symbol=item.symbol)
+            db.session.add(act)
+            # db.session.flush()
+            print('Return new id Act value %s\n' % act.idAct)
+            flash('New stock {}, added!'.format(
+                act.name), 'success')
     else:
-        item.name = n
-        item.symbol = s
-        flash('New stock, {}, updated!'.format(
+#        item.name = n
+#        item.symbol = s
+        flash('New stock {}, updated!'.format(
             item.name), 'success')
     print('item value: %s' % item)
     db.session.commit()
     if item is None:
         i = act.idAct
-    return jsonify(idAct=i, nameEdit=n, symbol=s)
+    return jsonify(idAct=i, table=t, nameEdit=item.name, symbol=item.symbol)
 
 
 # a Revoir
@@ -122,7 +124,7 @@ def newEdit():
                 )
         db.session.add(act)
         db.session.commit()
-        flash('New stock, {}, added!'.format(
+        flash('New stock {}, added!'.format(
                     act.name), 'success')
         return redirect(url_for('.index'))  # or main.index
     elif request.method == 'POST':
@@ -170,7 +172,7 @@ def newOrd():
             return redirect(url_for('.index'))  # or main.index
         else:
             flash('ERROR! Recipe was not added.', 'error')
-    if request.method == 'DEL':
+    if request.method == 'DELETE':
         print('del')
     return render_template('main/newOrd.html',
                            title='newOrd', form=form,

@@ -36,7 +36,7 @@ flask db upgrade
 pytest --setup-show tests/unit/
 ```
 
-## Tester individuellement
+## Test unitaire ou individuel
 ### database
 ```Python
 pytest --setup-show tests/unit/test_models.py::test_bienvenue2 -v

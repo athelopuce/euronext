@@ -8,6 +8,7 @@ from . import db, bcrypt
 from datetime import datetime
 
 
+# A garder pour exemple pytest
 class User(db.Model):
     '''
     User
@@ -57,7 +58,7 @@ class Act(db.Model):
         return '<Act %r>' % self.name
 
     def __str__(self):
-        return "idAct: %d: %s symbol %s = %.2f euros" % (self.idAct,
+        return "idAct %d: %s symbol %s = %.2f euros" % (self.idAct,
                                                          self.name,
                                                          self.symbol,
                                                          self.unitaryPrice)

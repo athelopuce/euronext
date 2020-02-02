@@ -102,7 +102,8 @@ $(document).on("click", ".btn-primary", function(){
 		url: $SCRIPT_ROOT + '/editRow',
 		data: { "id": x[0],
 		        "name": x[1],
-				"symbol": x[2]
+				"symbol": x[2],
+				"table":"newOrd"
 			   },
 		dataType: "json",
 		success: function(resp) {
