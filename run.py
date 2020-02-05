@@ -3,6 +3,9 @@
 Created on Tue Nov 26 15:31:52 2019
 
 @author: Utilisateur
+
+config best pratique
+https://flask.palletsprojects.com/en/1.1.x/config/
 """
 import os
 import click
@@ -47,3 +50,4 @@ def test(test_names):
     unittest.TextTestRunner(verbosity=2).run(tests)
     pytest.main(['-sv', 'tests/'])
     pytest.main(['-sv', 'libEuro/'])
+    

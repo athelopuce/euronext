@@ -39,8 +39,8 @@ print(dw)
 # READ csv
 data = dw.read(dw.name)
 dataInit = data
-print(data.head())
-print(data.tail())
+#print(data.head())
+#print(data.tail())
 
 '''
 MACD

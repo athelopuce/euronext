@@ -4,13 +4,20 @@ the users blueprint.
 
 These tests use GETs and POSTs to different URLs to check for the proper
 behavior of the users blueprint.
+
+
+https://medium.com/@aswens0276/using-pytest-to-setup-dynamic-testing-for-your-flask-apps-postgres-database-locally-and-with-39a14c3dc421
+https://github.com/pallets/flask/blob/master/examples/tutorial/tests/test_auth.py
+https://realpython.com/testing-in-django-part-1-best-practices-and-examples/#testing-views
 """
 
+import pytest
+from flask import jsonify
 
 ###########
 # /NewAct #
 ###########
-def test_newAct_page(test_client, init2_database):
+def test_newAct_page(test_client, init_database):
     """
     GIVEN a Flask application
     WHEN the '/newAct' page is requested (GET)
@@ -22,6 +29,48 @@ def test_newAct_page(test_client, init2_database):
     assert b"Symbol" in response.data
     assert b"Name" in response.data
     assert b"Action" in response.data
+    assert b"Michelin" in response.data
+    assert b"Total" in response.data
+
+
+def test_newAct_page_delRow(test_client, init_database):
+    """
+    GIVEN a Flask application
+    WHEN the '/delRow' page is posted to (POST)
+    THEN check the response is valid
+    """
+    response = test_client.post('/delRow',
+                                data=dict(
+                                        id=2,
+                                        table='newAct'),
+                                follow_redirects=True)
+    assert response.status_code == 200
+#    assert b"Michelin" in response.data
+#    assert b"Total" not in response.data
+
+
+# test javascript
+@pytest.mark.parametrize(
+    ("idt", "table", "res1"), (
+            (1, 'newAct', {'ida': 1, 'name': 'Michelin'}),
+            (2, 'newAct', {'ida': 2, 'name': 'Total'}),
+            (1, 'newOrd', {'ido': 1, 'sens': 'a'}),
+            (2, 'newOrd', {'ido': 2, 'sens': 'a'})
+            )
+)
+def test_newAct_json_delRow(test_client, init_database, idt, table, res1):
+    """
+    GIVEN a Flask application
+    WHEN the '/delRow' page is posted to (POST) with javascript
+    THEN check the json response is valid
+    """
+    response = test_client.post("/delRow", data={"id": idt, "table": table})
+    json_data = response.get_json()
+    print(json_data)
+    assert response.status_code == 200
+    assert response.json == res1
+#    assert json_data['ida'] == idt
+
 
 
 #####
@@ -29,7 +78,7 @@ def test_newAct_page(test_client, init2_database):
 #####
 def test_homeTest(test_client):
     '''
-    test acces au site page index.html
+    test acces au site page index.html sans db
     '''
     response = test_client.get('/homeTest')
     assert response.status_code == 200
@@ -60,9 +109,12 @@ def test_home_page_post(test_client):
     """
     response = test_client.post('/')
     assert response.status_code == 405
-    assert b"Welcome to the Flask User Management Example!" not in response.data
+    assert b"Welcome to the Flask User Management Example!" \
+        not in response.data
 
 
+# A cacher
+'''
 ##########
 # /login #
 ##########
@@ -179,3 +231,4 @@ def test_invalid_registration(test_client, init_database):
     assert b"Logout" not in response.data
     assert b"Login" in response.data
     assert b"Register" in response.data
+'''

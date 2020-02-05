@@ -29,7 +29,7 @@ def test_new_action(new_action):
     assert str(act) == 'idAct 1: Michelin symbol ML.PA = 0.00 euros'
 
 
-def test_act_query_all(test_client, init2_database):
+def test_act_query_all(test_client, init_database):
     '''
     Check insert data act, doublon?
     '''
@@ -70,7 +70,7 @@ def test_new_ord(new_ord):
     assert new_ord.idAct == 2
 
 
-def test_ord_query_all(test_client, init2_database):
+def test_ord_query_all(test_client, init_database):
     '''
     Check insert data ord, doublon?
     '''
@@ -120,7 +120,7 @@ def test_new_userV0(new_user):
 
 
 # test table User
-def test_user_query_all(test_client, init2_database):
+def test_user_query_all(test_client, init_database):
     from appEuro.models import User
     users = User.query.all()
     print(users)  # use pytest -s
@@ -133,7 +133,7 @@ def test_user_query_all(test_client, init2_database):
         assert u.password == listdata[x][2]
         x += 1
 
-
+'''
 # A revoir table originnale User et mot de passe
 def test_new_user(new_user):
     """
@@ -172,3 +172,4 @@ def test_user_id(new_user):
     assert isinstance(new_user.get_id(), str)
     assert not isinstance(new_user.get_id(), int)
     assert new_user.get_id() == "17"
+'''

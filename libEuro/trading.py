@@ -13,6 +13,7 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+
 class MACD:
     '''
     Calcul MACD avec moyenne eponentielle 12d et 26d
