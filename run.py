@@ -50,4 +50,3 @@ def test(test_names):
     unittest.TextTestRunner(verbosity=2).run(tests)
     pytest.main(['-sv', 'tests/'])
     pytest.main(['-sv', 'libEuro/'])
-    

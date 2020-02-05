@@ -12,7 +12,7 @@ https://realpython.com/testing-in-django-part-1-best-practices-and-examples/#tes
 """
 
 import pytest
-from flask import jsonify
+
 
 ###########
 # /NewAct #
@@ -33,22 +33,6 @@ def test_newAct_page(test_client, init_database):
     assert b"Total" in response.data
 
 
-def test_newAct_page_delRow(test_client, init_database):
-    """
-    GIVEN a Flask application
-    WHEN the '/delRow' page is posted to (POST)
-    THEN check the response is valid
-    """
-    response = test_client.post('/delRow',
-                                data=dict(
-                                        id=2,
-                                        table='newAct'),
-                                follow_redirects=True)
-    assert response.status_code == 200
-#    assert b"Michelin" in response.data
-#    assert b"Total" not in response.data
-
-
 # test javascript
 @pytest.mark.parametrize(
     ("idt", "table", "res1"), (
@@ -56,8 +40,7 @@ def test_newAct_page_delRow(test_client, init_database):
             (2, 'newAct', {'ida': 2, 'name': 'Total'}),
             (1, 'newOrd', {'ido': 1, 'sens': 'a'}),
             (2, 'newOrd', {'ido': 2, 'sens': 'a'})
-            )
-)
+            ))
 def test_newAct_json_delRow(test_client, init_database, idt, table, res1):
     """
     GIVEN a Flask application
