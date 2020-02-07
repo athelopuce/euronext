@@ -25,3 +25,8 @@ John Doe
 Susan Dir
 
 ```
+``` Python
+a = Act(idAct=1, name='michelin', symbol='ML.PA')
+db.session.add(a)
+db.session.commit()
+```

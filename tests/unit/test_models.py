@@ -27,9 +27,10 @@ def test_new_action(new_action):
     from appEuro.models import Act
     act = Act(idAct=1, name='Michelin', symbol='ML.PA')
     assert str(act) == 'idAct 1: Michelin symbol ML.PA = 0.00 euros'
+    assert new_action.as_dict() == {'name': 'Michelin'}
 
 
-def test_act_query_all(test_client, init_database):
+def test_act_query_all(test_client, session):
     '''
     Check insert data act, doublon?
     '''
@@ -68,9 +69,10 @@ def test_new_ord(new_ord):
     assert new_ord.PriceAchat == 10.56
     assert new_ord.quantity == 3
     assert new_ord.idAct == 2
+    assert str(new_ord) == "1: a de 2 à 10.56 €, le 2019-01-20"
 
 
-def test_ord_query_all(test_client, init_database):
+def test_ord_query_all(session):
     '''
     Check insert data ord, doublon?
     '''
@@ -102,7 +104,7 @@ def test_ord_query_all(test_client, init_database):
 ########
 
 # version d'essai. Plutot Utiliser le test test_new_user(new_user)
-def test_new_userV0(new_user):
+def test_new_user(new_user):
     """
     GIVEN a User model
     WHEN a new User is created
@@ -117,10 +119,12 @@ def test_new_userV0(new_user):
     assert u.login == 'Susan'
     assert u.password == 'Dir'
     assert u.connectionNumber == 3
+    assert str(u) == '2: Susan Dir - 3'
+    assert repr(u) == "<User 'Susan'>"
 
 
 # test table User
-def test_user_query_all(test_client, init_database):
+def test_user_query_all(session):
     from appEuro.models import User
     users = User.query.all()
     print(users)  # use pytest -s

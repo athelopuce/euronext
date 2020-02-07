@@ -14,48 +14,6 @@ https://realpython.com/testing-in-django-part-1-best-practices-and-examples/#tes
 import pytest
 
 
-###########
-# /NewAct #
-###########
-def test_newAct_page(test_client, init_database):
-    """
-    GIVEN a Flask application
-    WHEN the '/newAct' page is requested (GET)
-    THEN check the response is valid
-    """
-    response = test_client.get('/newAct',)
-    assert response.status_code == 200
-    assert b"newAct.js" in response.data
-    assert b"Symbol" in response.data
-    assert b"Name" in response.data
-    assert b"Action" in response.data
-    assert b"Michelin" in response.data
-    assert b"Total" in response.data
-
-
-# test javascript
-@pytest.mark.parametrize(
-    ("idt", "table", "res1"), (
-            (1, 'newAct', {'ida': 1, 'name': 'Michelin'}),
-            (2, 'newAct', {'ida': 2, 'name': 'Total'}),
-            (1, 'newOrd', {'ido': 1, 'sens': 'a'}),
-            (2, 'newOrd', {'ido': 2, 'sens': 'a'})
-            ))
-def test_newAct_json_delRow(test_client, init_database, idt, table, res1):
-    """
-    GIVEN a Flask application
-    WHEN the '/delRow' page is posted to (POST) with javascript
-    THEN check the json response is valid
-    """
-    response = test_client.post("/delRow", data={"id": idt, "table": table})
-    json_data = response.get_json()
-    print(json_data)
-    assert response.status_code == 200
-    assert response.json == res1
-#    assert json_data['ida'] == idt
-
-
-
 #####
 # / #
 #####
@@ -94,6 +52,61 @@ def test_home_page_post(test_client):
     assert response.status_code == 405
     assert b"Welcome to the Flask User Management Example!" \
         not in response.data
+
+
+###########
+# /NewAct #
+###########
+def test_newAct_page(test_client, session):
+    """
+    GIVEN a Flask application
+    WHEN the '/newAct' page is requested (GET)
+    THEN check the response is valid
+    """
+    response = test_client.get('/newAct',)
+    assert response.status_code == 200
+    assert b"newAct.js" in response.data
+    assert b"Symbol" in response.data
+    assert b"Name" in response.data
+    assert b"Action" in response.data
+    assert b"Michelin" in response.data
+    assert b"Total" in response.data
+
+
+@pytest.mark.parametrize(
+    ("idt", "table", "res1"), (
+            (1, 'newAct', {'ida': 1, 'name': 'Michelin'}),
+            (2, 'newAct', {'ida': 2, 'name': 'Total'}),
+            (1, 'newOrd', {'ido': 1, 'sens': 'a'}),
+            (2, 'newOrd', {'ido': 2, 'sens': 'a'})
+            ))
+def test_newAct_json_editRow(test_client, session, idt, table, res1):
+    response = test_client.post("/editRow", data={"id": idt, "table": table})
+    json_data = response.get_json()
+    print(json_data)
+    assert response.status_code == 200
+
+
+# test javascript
+@pytest.mark.parametrize(
+    ("idt", "table", "res1"), (
+            (1, 'newAct', {'ida': 1, 'name': 'Michelin'}),
+            (2, 'newAct', {'ida': 2, 'name': 'Total'}),
+            (1, 'newOrd', {'ido': 1, 'sens': 'a'}),
+            (2, 'newOrd', {'ido': 2, 'sens': 'a'})
+            ))
+def test_newAct_json_delRow(test_client, session, idt, table, res1):
+    """
+    GIVEN a Flask application
+    WHEN the '/delRow' page is posted to (POST) with javascript
+    THEN check the json response is valid
+    """
+    response = test_client.post("/delRow", data={"id": idt, "table": table})
+    json_data = response.get_json()
+    print(json_data)
+    assert response.status_code == 200
+    assert response.json == res1
+#    assert json_data['ida'] == idt
 
 
 # A cacher

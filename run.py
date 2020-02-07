@@ -12,7 +12,6 @@ import click
 from flask_migrate import Migrate
 # from euronext import app, db
 from appEuro import create_app, db
-#from appEuro.models import Action, Ordre, Seuil
 from appEuro.models import User, Act, Ord, OrdLine, Cpt, Action, Ordre
 import pytest
 
@@ -42,11 +41,12 @@ def make_shell_context():
 @click.argument('test_names', nargs=-1)
 def test(test_names):
     """Run the unit tests."""
-    import unittest
-    if test_names:
-        tests = unittest.TestLoader().loadTestsFromNames(test_names)
-    else:
-        tests = unittest.TestLoader().discover('tests')
-    unittest.TextTestRunner(verbosity=2).run(tests)
-    pytest.main(['-sv', 'tests/'])
-    pytest.main(['-sv', 'libEuro/'])
+#    import unittest
+#    if test_names:
+#        tests = unittest.TestLoader().loadTestsFromNames(test_names)
+#    else:
+#        tests = unittest.TestLoader().discover('tests')
+#    unittest.TextTestRunner(verbosity=2).run(tests)
+    pytest.main(['--setup-show', '-svx', 'tests/'])
+#    pytest.main(['--setup-show', '-svx', 'libEuro/'])
+#    pytest.main(['--setup-show', '-svx', 'tests/functional/'])

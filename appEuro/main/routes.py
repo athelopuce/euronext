@@ -32,10 +32,14 @@ def index():
 #    return "Hello, World!"
     form = MyForm()
     print(url_for('.index'))
-    return render_template('main/index.html',
-                           form=form,
-                           listActions=Act.query.all()
-                           )
+    q = db.session.query(Act)
+    print(db.session.query(q.exists()))
+    listActions = Act.query.all()
+    print(listActions)
+    if listActions is None:
+        return render_template('main/index.html', form=form)
+    else:
+        return render_template('main/index.html', form=form, listActions=listActions)
 
 
 #    return render_template(url_for('.index'),
@@ -78,7 +82,7 @@ def delRow():
 #    act = Act.query.filter_by(idAct=i).first()
     if t == 'newAct':
         item = Act.query.get(i)  # get idAct
-        n = request.form.get("name", type=str)  # à effacer
+#        n = request.form.get("name", type=str)  # à effacer
         db.session.delete(item)
         db.session.commit()
         flash('Congratulations, stock {} deleted!'.format(
@@ -97,8 +101,8 @@ def delRow():
 @main.route("/editRow", methods=["POST"])
 def editRow():
     i = request.form.get("id", type=int)
-    n = request.form.get("name", 0)
-    s = request.form.get("symbol", type=str)
+#    n = request.form.get("name", 0)
+#    s = request.form.get("symbol", type=str)
     t = request.form.get("table", type=str)  # table
 #    act = Act.query.filter_by(name=n, symbol=s).first()_or_404()
     item = Act.query.get(i)  # get idAct
