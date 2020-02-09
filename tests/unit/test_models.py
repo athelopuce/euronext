@@ -30,7 +30,7 @@ def test_new_action(new_action):
     assert new_action.as_dict() == {'name': 'Michelin'}
 
 
-def test_act_query_all(test_client, session):
+def test_act_query_all(test_client, init_database):
     '''
     Check insert data act, doublon?
     '''
@@ -69,10 +69,10 @@ def test_new_ord(new_ord):
     assert new_ord.PriceAchat == 10.56
     assert new_ord.quantity == 3
     assert new_ord.idAct == 2
-    assert str(new_ord) == "1: a de 2 à 10.56 €, le 2019-01-20"
+    assert str(new_ord) == "1: a de 3 2 à 10.56 €, le 2019-01-20"
 
 
-def test_ord_query_all(session):
+def test_ord_query_all(test_client, init_database):
     '''
     Check insert data ord, doublon?
     '''
@@ -124,7 +124,7 @@ def test_new_user(new_user):
 
 
 # test table User
-def test_user_query_all(session):
+def test_user_query_all(test_client, init_database):
     from appEuro.models import User
     users = User.query.all()
     print(users)  # use pytest -s

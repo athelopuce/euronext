@@ -8,19 +8,22 @@
 $(document).ready(function(){
 	$('[data-toggle="tooltip"]').tooltip();
 	$(".btn-primary").hide(); // au démarrage
-	var actions = $("table td:last-child").html(); // ajout des buttons edit et del
+	var actions = $("#newOrd td:last-child").html(); // ajout des buttons edit et del
 	// Append table with add row form on add new button click
     $(".btn-info.add-new").click(function(){
 		$(this).attr("disabled", "disabled");
-		var index = $("#example tbody tr:last-child").index();
+		var index = $("#newOrd tbody tr:last-child").index();
         var row = '<tr>' +
 			'<td class="d-none">' + index + 1 + '</td>' +
-            '<td><input type="text" class="form-control" name="name" id="name"></td>' +
-            '<td><input type="text" class="form-control" name="symbol" id="symbol"></td>' +
+			'<td><input type="text" class="form-control" name="sens"></td>' +
+			'<td><input type="text" class="form-control" name="date"></td>' +
+			'<td><input type="text" class="form-control" name="PriceAchat"></td>' +
+            '<td><input type="text" class="form-control" name="quantity"></td>' +
+            '<td><input type="text" class="form-control" name="idAct"></td>' +
 			'<td>' + actions + '</td>' +
 			'</tr>';
-    	$("#tableType").append(row);		
-		$("#tableType tbody tr").eq(index + 1).find(".btn-primary, .btn-success").toggle();
+    	$("#newOrd").append(row);		
+		$("#newOrd tbody tr").eq(index + 1).find(".btn-primary, .btn-success").toggle();
         $('[data-toggle="tooltip"]').tooltip();
 	});
 });
@@ -42,8 +45,11 @@ $(document).on("click", ".btn-danger", function(event){
 		method: 'POST',
 		url: $SCRIPT_ROOT + '/delRow',
 		data: { "id": x[0],
-		        "name": x[1],
-				"symbol": x[2],
+		        "sens": x[1],
+				"date": x[2],
+				"PriceAchat": x[3],
+				"quantity":x[4],
+				"idAct":x[5],
 				"table":"newOrd"
 			   }
 	});
@@ -101,15 +107,18 @@ $(document).on("click", ".btn-primary", function(){
 		method: 'POST',
 		url: $SCRIPT_ROOT + '/editRow',
 		data: { "id": x[0],
-		        "name": x[1],
-				"symbol": x[2],
+		        "sens": x[1],
+				"date": x[2],
+				"PriceAchat": x[3],
+				"quantity":x[4],
+				"idAct":x[5],
 				"table":"newOrd"
 			   },
 		dataType: "json",
 		success: function(resp) {
 			//console.log('response idAct: ' + resp.idAct); // la reponse de json
 			//console.log( index.eq(0))
-			index.eq(0).text(resp.idAct);
+			index.eq(0).text(resp.idOrd);
 			$('.success').show();
 			$('.success').delay(3000).fadeOut();
 		}

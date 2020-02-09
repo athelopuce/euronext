@@ -8,19 +8,21 @@
 $(document).ready(function(){
 	$('[data-toggle="tooltip"]').tooltip();
 	$(".btn-primary").hide(); // au démarrage
-	var actions = $("table td:last-child").html(); // ajout des buttons edit et del
+	var actions = $("#newActTab td:last-child").html(); // ajout des 3 buttons edit, add et del
 	// Append table with add row form on add new button click
     $(".btn-info.add-new").click(function(){
 		$(this).attr("disabled", "disabled");
-		var index = $("#example tbody tr:last-child").index();
+		var index = $("#newActTab tbody tr:last-child").index();
+		index++;
+		console.log('index add-new:', index);
         var row = '<tr>' +
-			'<td class="d-none">' + index + 1 + '</td>' +
+			'<td class="d-none">' + index + '</td>' +
             '<td><input type="text" class="form-control" name="name" id="name"></td>' +
             '<td><input type="text" class="form-control" name="symbol" id="symbol"></td>' +
 			'<td>' + actions + '</td>' +
 			'</tr>';
-    	$("#tableType").append(row);		
-		$("#tableType tbody tr").eq(index + 1).find(".btn-primary, .btn-success").toggle();
+    	$("#newActTab").append(row);		
+		$("#newActTab tbody tr").eq(index).find(".btn.btn-primary, .btn.btn-success").toggle();
         $('[data-toggle="tooltip"]').tooltip();
 	});
 });
@@ -36,7 +38,7 @@ $(document).on("click", ".btn-danger", function(event){
 			//console.log( index + ": " + $( this ).text() );
 			x.push( $( this ).text());
 	});
-	console.log(x);
+	console.log('del:', x);
 	$.ajax({
 		dataType: "json",
 		method: 'POST',
@@ -91,11 +93,11 @@ $(document).on("click", ".btn-primary", function(){
 			//console.log( index + ": " + $( this ).text() );
 			x.push( $( this ).text());
 	});
-	//console.log(x);
+	console.log('data:', x);
 	
 	/* Mémorise index de la ligne modifiée */
 	var index = $(this).parents("tr").find("td").first();
-	//console.log(index);
+	console.log('ligne add:', index);
 	
 	$.ajax({
 		method: 'POST',
@@ -108,7 +110,7 @@ $(document).on("click", ".btn-primary", function(){
 		dataType: "json",
 		success: function(resp) {
 			//console.log('response idAct: ' + resp.idAct); // la reponse de json
-			//console.log( index.eq(0))
+			console.log('index retour add:', index.eq(0))
 			index.eq(0).text(resp.idAct);
 			$('.success').show();
 			$('.success').delay(3000).fadeOut();

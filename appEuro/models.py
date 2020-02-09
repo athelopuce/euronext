@@ -95,8 +95,9 @@ class Ord(db.Model):
         return '<Ord %r>' % self.idOrd
 
     def __str__(self):
-        return "%d: %s de %d à %.2f €, le %s" % (self.idOrd, self.sens,
-                                                 self.idAct, self.PriceAchat,
+        return "%d: %s de %i %d à %.2f €, le %s" % (self.idOrd, self.sens, 
+                                                 self.quantity, self.idAct, 
+                                                 self.PriceAchat,
                                                  self.ordDate)
 
 
