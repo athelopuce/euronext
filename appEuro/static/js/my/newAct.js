@@ -13,10 +13,12 @@ $(document).ready(function(){
     $(".btn-info.add-new").click(function(){
 		$(this).attr("disabled", "disabled");
 		var index = $("#newActTab tbody tr:last-child").index();
+		console.log('index add-new av inc:', index);
+		if (index == -1) { index = 0;} 
 		index++;
 		console.log('index add-new:', index);
         var row = '<tr>' +
-			'<td class="d-none">' + index + '</td>' +
+			'<td class="d-none">' + index +'</td>' +
             '<td><input type="text" class="form-control" name="name" id="name"></td>' +
             '<td><input type="text" class="form-control" name="symbol" id="symbol"></td>' +
 			'<td>' + actions + '</td>' +

@@ -105,11 +105,6 @@ def add_data(db):
     db.session.commit()
 
 
-@fixture
-def schema() -> WidgetSchema:
-    return WidgetSchema()
-
-
 #@pytest.fixture(scope="session")
 #def db(app, request):
 #    """

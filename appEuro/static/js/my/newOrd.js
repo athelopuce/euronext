@@ -13,8 +13,10 @@ $(document).ready(function(){
     $(".btn-info.add-new").click(function(){
 		$(this).attr("disabled", "disabled");
 		var index = $("#newOrd tbody tr:last-child").index();
+		if (index == -1) { index = 0;} 
+		index++;
         var row = '<tr>' +
-			'<td class="d-none">' + index + 1 + '</td>' +
+			'<td class="d-none">' + index + '</td>' +
 			'<td><input type="text" class="form-control" name="sens"></td>' +
 			'<td><input type="text" class="form-control" name="date"></td>' +
 			'<td><input type="text" class="form-control" name="PriceAchat"></td>' +
@@ -23,7 +25,7 @@ $(document).ready(function(){
 			'<td>' + actions + '</td>' +
 			'</tr>';
     	$("#newOrd").append(row);		
-		$("#newOrd tbody tr").eq(index + 1).find(".btn-primary, .btn-success").toggle();
+		$("#newOrd tbody tr").eq(index).find(".btn-primary, .btn-success").toggle();
         $('[data-toggle="tooltip"]').tooltip();
 	});
 });
@@ -46,7 +48,7 @@ $(document).on("click", ".btn-danger", function(event){
 		url: $SCRIPT_ROOT + '/delRow',
 		data: { "id": x[0],
 		        "sens": x[1],
-				"date": x[2],
+				"ordDate": x[2],
 				"PriceAchat": x[3],
 				"quantity":x[4],
 				"idAct":x[5],
@@ -108,7 +110,7 @@ $(document).on("click", ".btn-primary", function(){
 		url: $SCRIPT_ROOT + '/editRow',
 		data: { "id": x[0],
 		        "sens": x[1],
-				"date": x[2],
+				"ordDate": x[2],
 				"PriceAchat": x[3],
 				"quantity":x[4],
 				"idAct":x[5],

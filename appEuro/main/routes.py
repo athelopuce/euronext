@@ -15,6 +15,8 @@ from flask import jsonify  # pour route interactive
 
 # import logging
 
+from datetime import datetime  # temp. à placer dans des fonctions personnels
+
 
 @main.route('/homeTest')
 def homeTest():
@@ -34,10 +36,10 @@ def index():
     print('url_for: ', url_for('.index'))
     q = db.session.query(Act)
     print('session: ', db.session.query(q.exists()))
-    q = Act.query.all()
-    q = q.order_by(Act.name.asc())
-
-    print(q)
+#    q = Act.query.all()  # dict() of Act
+    q = db.session.query(Act).order_by(Act.name.asc())
+    for u in q:
+        print(u.__dict__)
     if q is None:
         return render_template('main/index.html', form=form)
     else:
@@ -114,14 +116,14 @@ def delRow():
 def editRow():
     i = request.form.get("id", type=int)
     t = request.form.get("table", type=str)  # table
-#    act = Act.query.filter_by(name=n, symbol=s).first()_or_404()
     print('i:', i, ' t:', t)
     if t == 'newAct':
         n = request.form.get("name", type=str)
         s = request.form.get("symbol", type=str)
-#        item = Act.query.get(n)  # get idAct
-#        item = Act.query.filter(Act.name == n)
-        item = db.session.query(Act).filter_by(name=n, symbol=s).first()
+        # recherche par id
+        item = Act.query.get(i)  # get idAct
+        # Recherche par nom
+#        item = db.session.query(Act).filter_by(name=n, symbol=s).first()
         print('item:', item)
         if item is None:
             # add new action
@@ -136,20 +138,24 @@ def editRow():
             # update action
             flash('New stock {}, updated!'.format(
                 item.name), 'success')
+            item.name = n
+            item.symbol = s
             db.session.commit()
         return jsonify(ida=i, name=n, symbol=s)
     if t == 'newOrd':
         # sens, date, PriceAchat, quantity, idAct
         s = request.form.get("sens", type=str)
-        d = request.form.get("date")
-        p = request.form.get("PriceAchat", type=float)
-        q = request.form.get("quantity", type=int)
+        d = request.form.get("ordDate")
+        px = request.form.get("PriceAchat", type=float)
+        qt = request.form.get("quantity", type=int)
         ida = request.form.get("idAct", type=int)
         item = Ord.query.get(i)  # get idAct
         print('item:', item)
         if item is None:
             # add new order
-            ord_ = Ord(sens=s, date=d, PriceAchat=p, quantity=q, idAct=ida)
+            print('date:', type(d), d)
+            ord_ = Ord(sens=s, ordDate=d, PriceAchat=px, quantity=qt,
+                       idAct=ida)
             db.session.add(ord_)
             db.session.commit()
             i = ord_.idOrd
@@ -160,8 +166,17 @@ def editRow():
             # update action
             flash('New order {}, updated!'.format(
                 item.idOrd), 'success')
+            item.sens = s
+            print('date1:', type(d), d)
+            date_ord = datetime.strptime(d, '%d/%m/%Y').date()
+            print('date2:', type(date_ord), date_ord)
+            # format='%d/%m/%Y' date: <class 'datetime.date'> 2020-02-10
+            item.ordDate = date_ord
+            item.PriceAchat = px
+            item.quantity = qt
+            item.idAct = ida
             db.session.commit()
-        return jsonify(ido=i, sens=s, date=d, PriceAchat=p, quantity=q,
+        return jsonify(ido=i, sens=s, ordDate=d, PriceAchat=px, quantity=qt,
                        idAct=ida)
 
 
@@ -179,7 +194,7 @@ def newEdit():
         flash('New stock {}, added!'.format(
                     act.name), 'success')
         return redirect(url_for('.index'))  # or main.index
-    elif request.method == 'POST':
+    elif request.method == 'GET':
         # Retrieve data from the request and remove it from the database
         myId = request.form.get('column1')
         print(myId)
@@ -206,21 +221,22 @@ def newOrd():
         if form.validate_on_submit():
             print(form.sens.data)
             print('sens: %s' % form.sens.data)
-            print('date: %s' % form.ordDate.data)
+            print('ordDate: %s' % form.ordDate.data)
             print('quantity: %d' % form.quantity.data)
             print('idAct: %d' % form.idAct.data)
-            ord = Ord(
+            print('ordDate:', type(form.ordDate.data), form.ordDate.data)
+            ord_ = Ord(
                     sens=form.sens.data,
                     ordDate=form.ordDate.data,
                     PriceAchat=form.PriceAchat.data,
                     quantity=form.quantity.data,
                     idAct=form.idAct.data
                     )
-            db.session.add(ord)
+            db.session.add(ord_)
             db.session.commit()
-            print(ord)
+            print(ord_)
             flash('New order, {}, added!'.format(
-                    ord.idAct), 'success')
+                    ord_.idAct), 'success')
             return redirect(url_for('.index'))  # or main.index
         else:
             flash('ERROR! Recipe was not added.', 'error')

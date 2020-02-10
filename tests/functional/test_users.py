@@ -176,20 +176,13 @@ def test_newOrd_form(test_client, init_database):
                                   'PriceAchat': 14.56,
                                   'quantity': 3,
                                   'idAct': 1
-                                  },
-                            follow_redirects=True)
+                                  }
+                            )
     assert resp.status_code == 200
     assert b'<input id="ordDate" name="ordDate" required="" type="text" value="09/02/2020">' in resp.data
     assert b"New order, 1, added!" in resp.data
     assert b"Flask User Management" in resp.data
 
-
-
-
-
-
-def test_WidgetSchema_create(schema: WidgetSchema):
-    assert schema
 
 # A cacher
 '''

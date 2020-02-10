@@ -8,6 +8,10 @@ from . import db, bcrypt
 from datetime import datetime
 
 
+def date_strToDt(dt):
+    return datetime.strptime(dt, '%d-%m-%Y').date()
+
+
 # A garder pour exemple pytest
 class User(db.Model):
     '''
@@ -95,10 +99,10 @@ class Ord(db.Model):
         return '<Ord %r>' % self.idOrd
 
     def __str__(self):
-        return "%d: %s de %i %d à %.2f €, le %s" % (self.idOrd, self.sens, 
-                                                 self.quantity, self.idAct, 
-                                                 self.PriceAchat,
-                                                 self.ordDate)
+        return "%d: %s de %i %d à %.2f €, le %s" % (self.idOrd, self.sens,
+                                                    self.quantity, self.idAct,
+                                                    self.PriceAchat,
+                                                    self.ordDate)
 
 
 class OrdLine(db.Model):
