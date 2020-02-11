@@ -152,7 +152,7 @@ def editRow():
         item = Ord.query.get(i)  # get idAct
         print('item:', item)
         if item is None:
-            # add new order
+            # add new order NON utilisé voir form newOrd
             print('date:', type(d), d)
             ord_ = Ord(sens=s, ordDate=d, PriceAchat=px, quantity=qt,
                        idAct=ida)
@@ -224,7 +224,8 @@ def newOrd():
             print('ordDate: %s' % form.ordDate.data)
             print('quantity: %d' % form.quantity.data)
             print('idAct: %d' % form.idAct.data)
-            print('ordDate:', type(form.ordDate.data), form.ordDate.data)
+            print('PriceAchat: %s' % form.PriceAchat.data)
+            print('Type(ordDate):', type(form.ordDate.data), form.ordDate.data)
             ord_ = Ord(
                     sens=form.sens.data,
                     ordDate=form.ordDate.data,

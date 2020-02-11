@@ -105,6 +105,15 @@ def add_data(db):
     db.session.commit()
 
 
+@pytest.fixture
+def add_after_del(db):
+    act1 = Act(name='Michelin', symbol='ML.PA', unitaryPrice=10.56)
+    act2 = Act(name='Total', symbol='FP.PA')
+    db.session.add(act1)
+    db.session.add(act2)
+    db.session.commit()
+
+
 #@pytest.fixture(scope="session")
 #def db(app, request):
 #    """
@@ -154,8 +163,8 @@ def add_data(db):
 
 
 # pour class User avec Act
-#        @pytest.fixture
-@pytest.fixture(scope='module')
+#        @pytest.fixture(scope='module') pour init à chaque session
+@pytest.fixture
 def init_database():
     # Create the database and the database table
     db2.create_all()

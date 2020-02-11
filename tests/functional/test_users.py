@@ -12,7 +12,8 @@ https://realpython.com/testing-in-django-part-1-best-practices-and-examples/#tes
 """
 
 import pytest
-from datetime import date
+from datetime import datetime
+from flask import request, url_for
 
 
 #####
@@ -38,7 +39,7 @@ def test_home_page_get(test_client, init_database):
     # A revoir manque liste des actions qui devrait disparaitre
     response = test_client.get('/index')
     assert response.status_code == 200
-#    assert b"Welcome to the Flask User Management Example!" in response.data
+    assert b"Pleased to meet you!" in response.data
 #    assert b"Need an account?" in response.data
 #    assert b"Existing user?" in response.data
 
@@ -88,19 +89,14 @@ def test_newAct_page(test_client, init_database):
              {'ida': 2, 'name': 'Total', 'symbol': 'FP.PA'}),
             ({'id': 5, 'name': 'new action', 'symbol': 'nw.PA', 'table': 'newAct'},
              {'ida': 3, 'name': 'new action', 'symbol': 'nw.PA'}),
-            ({'id': 1, 'sens': 'a', 'date': '2019-01-20', 'PriceAchat': 10.56,
+            ({'id': 1, 'sens': 'a', 'ordDate': '20/01/2019', 'PriceAchat': 10.56,
               'quantity': 5, 'idAct': 1, 'table': 'newOrd'},
-             {'ido': 1, 'sens': 'a', 'date': '2019-01-20', 'PriceAchat': 10.56,
+             {'ido': 1, 'sens': 'a', 'ordDate': '20/01/2019', 'PriceAchat': 10.56,
               'quantity': 5, 'idAct': 1}),
-            ({'id': 2, 'sens': 'a', 'date': '2019-01-21', 'PriceAchat': 12.56,
+            ({'id': 2, 'sens': 'a', 'ordDate': '21/01/2019', 'PriceAchat': 12.56,
               'quantity': 2, 'idAct': 2, 'table': 'newOrd'},
-             {'ido': 2, 'sens': 'a', 'date': '2019-01-21', 'PriceAchat': 12.56,
-              'quantity': 2, 'idAct': 2}),
-            ({'id': 8, 'sens': 'a', 'date': '2019-01-22',
-              'PriceAchat': 14.56, 'quantity': 3, 'idAct': 1,
-              'table': 'newOrd'},
-             {'ido': 8, 'sens': 'a', 'date': '2019-01-22',
-              'PriceAchat': 14.56, 'quantity': 3, 'idAct': 1})
+             {'ido': 2, 'sens': 'a', 'ordDate': '21/01/2019', 'PriceAchat': 12.56,
+              'quantity': 2, 'idAct': 2})
             ))
 def test_newAct_json_editRow(test_client, init_database, idt, result):
     '''
@@ -169,19 +165,28 @@ def test_newOrd_page(test_client, init_database):
 
 
 def test_newOrd_form(test_client, init_database):
+    '''
+    Test new order
+    ordDate': datetime(2020, 1, 12)
+    '''
     resp = test_client.post("/newOrd",
-                            data={'ido': 8,
-                                  'sens': 'a',
-                                  'date': '2019-01-22',
+                            data={'sens': 'a',
+                                  'ordDate': '12/01/2020',
                                   'PriceAchat': 14.56,
                                   'quantity': 3,
                                   'idAct': 1
-                                  }
+                                  },
+                            follow_redirects=True,
                             )
     assert resp.status_code == 200
-    assert b'<input id="ordDate" name="ordDate" required="" type="text" value="09/02/2020">' in resp.data
-    assert b"New order, 1, added!" in resp.data
-    assert b"Flask User Management" in resp.data
+    print(type(resp.data))
+    print(type(resp))
+#    file = open("resp_text.txt", "w")
+#    file.write(resp.data.decode("utf-8"))
+#    file.close()
+    assert b'<h1>Hello, Stranger!</h1>' in resp.data
+    assert b'<td>Michelin</td>' in resp.data
+    assert b'<td>ML.PA</td>' in resp.data
 
 
 # A cacher
